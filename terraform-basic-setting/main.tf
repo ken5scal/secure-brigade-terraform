@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "terraform-backend" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
         kms_master_key_id = aws_kms_key.terraform-backend.key_id
       }
     }
@@ -21,14 +21,14 @@ resource "aws_s3_bucket" "terraform-backend" {
 
   tags = {
     name = "terraform-backend"
-    env  = "shared-resources"
+    env = "shared-resources"
     jobs = "config-mgt"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "block-terraform-backend" {
-  bucket              = aws_s3_bucket.terraform-backend.id
-  block_public_acls   = true
+  bucket = aws_s3_bucket.terraform-backend.id
+  block_public_acls = true
   block_public_policy = true
 }
 
@@ -37,19 +37,22 @@ resource "aws_kms_key" "terraform-backend" {
 }
 
 resource "aws_kms_alias" "terraform-backend" {
-  name          = "alias/terraform-backend-key"
+  name = "alias/terraform-backend-key"
   target_key_id = aws_kms_key.terraform-backend.key_id
 }
 
+// this bucket collects access log in terraform-backend s3.
+// however, logging is only allowed in the s3 on the same aws account
+// thus, any objects(logs) placed in this s3 is replicated to the s3 in aws-logging-account
 resource "aws_s3_bucket" "terraform-backend-logging" {
   bucket = "terraform-backend-secure-brigade-logging"
   region = var.region
-  acl    = "log-delivery-write"
+  acl = "log-delivery-write"
 
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
         kms_master_key_id = aws_kms_key.terraform-backend.key_id
       }
     }
@@ -59,7 +62,7 @@ resource "aws_s3_bucket" "terraform-backend-logging" {
     role = aws_iam_role.replication.arn
 
     rules {
-      id     = "terraform-logging"
+      id = "terraform-logging"
       status = "Enabled"
 
       source_selection_criteria {
@@ -69,7 +72,7 @@ resource "aws_s3_bucket" "terraform-backend-logging" {
       }
 
       destination {
-        bucket             = aws_s3_bucket.logging-replication.arn
+        bucket = aws_s3_bucket.logging-replication.arn
         replica_kms_key_id = aws_kms_key.terraform-backend-logging-replication.arn
         access_control_translation {
           owner = "Destination"
@@ -85,19 +88,19 @@ resource "aws_s3_bucket" "terraform-backend-logging" {
 
   tags = {
     name = "terraform-backend-logging"
-    env  = "shared-resources"
+    env = "shared-resources"
     jobs = "config-mgt-log"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "block-terraform-backend-log" {
-  bucket              = aws_s3_bucket.terraform-backend-logging.id
-  block_public_acls   = true
+  bucket = aws_s3_bucket.terraform-backend-logging.id
+  block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_iam_role" "replication" {
-  name               = "terraform-iam-role-replication"
+  name = "terraform-iam-role-replication"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -137,7 +140,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
-  role       = aws_iam_role.replication.name
+  role = aws_iam_role.replication.name
   policy_arn = aws_iam_policy.replication.arn
 }
 
@@ -147,13 +150,13 @@ resource "aws_iam_role_policy_attachment" "replication" {
 
 resource "aws_s3_bucket" "logging-replication" {
   provider = aws.logging
-  bucket   = "terraform-backend-logging-replication"
-  region   = var.region
+  bucket = "terraform-backend-logging-replication"
+  region = var.region
 
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
         kms_master_key_id = aws_kms_key.terraform-backend-logging-replication.key_id
       }
     }
@@ -169,22 +172,22 @@ resource "aws_s3_bucket" "logging-replication" {
 
   tags = {
     name = "terraform-backend-logging-replication"
-    env  = "logging"
+    env = "logging"
     jobs = "config-mgt-log"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "block-terraform-backend-log-replication" {
-  provider            = aws.logging
-  bucket              = aws_s3_bucket.logging-replication.id
-  block_public_acls   = true
+  provider = aws.logging
+  bucket = aws_s3_bucket.logging-replication.id
+  block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_s3_bucket_policy" "terraform-backend-log-replication" {
   provider = aws.logging
-  bucket   = aws_s3_bucket.logging-replication.id
-  policy   = <<EOF
+  bucket = aws_s3_bucket.logging-replication.id
+  policy = <<EOF
 {
     "Version": "2008-10-17",
     "Id": "",
@@ -213,9 +216,9 @@ EOF
 }
 
 resource "aws_kms_key" "terraform-backend-logging-replication" {
-  provider    = aws.logging
+  provider = aws.logging
   description = "key to encrypt/decrypt replication of logs in terraform backend"
-  policy      = <<EOF
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Id": "key-default-1",
@@ -244,7 +247,7 @@ EOF
 }
 
 resource "aws_kms_alias" "terraform-backend-logging-replication" {
-  provider      = aws.logging
-  name          = "alias/terraform-backend-logging-replicationkey"
+  provider = aws.logging
+  name = "alias/terraform-backend-logging-replicationkey"
   target_key_id = aws_kms_key.terraform-backend-logging-replication.key_id
 }

@@ -44,6 +44,8 @@ resource "aws_kms_alias" "terraform-backend" {
 // this bucket collects access log in terraform-backend s3.
 // however, logging is only allowed in the s3 on the same aws account
 // thus, any objects(logs) placed in this s3 is replicated to the s3 in aws-logging-account
+// https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/replication-troubleshoot.html
+// https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/replication-example-walkthroughs.html
 resource "aws_s3_bucket" "terraform-backend-logging" {
   bucket = "terraform-backend-secure-brigade-logging"
   region = var.region

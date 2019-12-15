@@ -3,12 +3,6 @@ provider "aws" {
   profile    = "791325445011_AdministratorAccess" // aws(master) profile in ~/.aws/credentials
 }
 
-resource "aws_organizations_account" "test" {
-  email = "kengoscal+aws-test@gmail.com"
-  name  = "secure-brigade-test"
-  role_name = "myOrganizationRole"
-}
-
 resource "aws_organizations_account" "security" {
   email = "kengoscal+aws-security@gmail.com"
   name  = "secure-brigade-security"

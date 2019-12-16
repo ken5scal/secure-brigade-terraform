@@ -1,5 +1,5 @@
 // Account IDs
-maste-account-id            = "791325445011"
+master-account-id            = "791325445011"
 compliance-account-id       = "491027160565"
 sandbox-account-id          = "263282520639"
 logging-account-id          = "817939479605"

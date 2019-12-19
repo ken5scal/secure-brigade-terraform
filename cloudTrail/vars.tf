@@ -8,6 +8,9 @@ variable "prod-account-id" {}
 variable "shared-resources-account-id" {}
 variable "security-account-id" {}
 
+variable "accounts" {
+}
+
 variable "region" {}
 variable "environment" {
   default = "terraform"

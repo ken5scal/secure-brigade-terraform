@@ -1,6 +1,6 @@
 resource "aws_iam_role" "cloudtrail" {
-  provider = aws.compliance
-  name = "CloudTrailReplicationRole"
+  provider           = aws.compliance
+  name               = "CloudTrailReplicationRole"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -20,7 +20,7 @@ POLICY
 
 resource "aws_iam_policy" "cloudtrail" {
   provider = aws.compliance
-  name = "CloudTrailReplicationPolicy"
+  name     = "CloudTrailReplicationPolicy"
   # Sid 1: Allow original bucket (or s3 as principal) can get replication config and List
   policy = <<POLICY
 {
@@ -41,8 +41,8 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "cloudtrail" {
-  provider = aws.compliance
-  role = aws_iam_role.cloudtrail.name
+  provider   = aws.compliance
+  role       = aws_iam_role.cloudtrail.name
   policy_arn = aws_iam_policy.cloudtrail.arn
 }
 

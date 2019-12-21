@@ -1,6 +1,6 @@
 # Cloud Trail Settings
 resource "aws_cloudtrail" "logging" {
-  name = "cloudtrail-secure-brigade-logging"
+  name = "cloudtrail-logging"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -20,7 +20,7 @@ resource "aws_cloudtrail" "logging" {
 
 resource "aws_cloudtrail" "master" {
   provider = aws.master
-  name = "cloudtrail-secure-brigade-master"
+  name = "cloudtrail-master"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -40,7 +40,7 @@ resource "aws_cloudtrail" "master" {
 
 resource "aws_cloudtrail" "compliance" {
   provider = aws.compliance
-  name = "cloudtrail-secure-brigade-compliance"
+  name = "cloudtrail-compliance"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -60,7 +60,7 @@ resource "aws_cloudtrail" "compliance" {
 
 resource "aws_cloudtrail" "sandbox" {
   provider = aws.sandbox
-  name = "cloudtrail-secure-brigade-sandbox"
+  name = "cloudtrail-sandbox"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -80,7 +80,7 @@ resource "aws_cloudtrail" "sandbox" {
 
 resource "aws_cloudtrail" "stg" {
   provider = aws.stg
-  name = "cloudtrail-secure-brigade-stg"
+  name = "cloudtrail-stg"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -100,7 +100,7 @@ resource "aws_cloudtrail" "stg" {
 
 resource "aws_cloudtrail" "prod" {
   provider = aws.prod
-  name = "cloudtrail-secure-brigade-prod"
+  name = "cloudtrail-prod"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -120,7 +120,7 @@ resource "aws_cloudtrail" "prod" {
 
 resource "aws_cloudtrail" "shared-resources" {
   provider = aws.shared-resources
-  name = "cloudtrail-secure-brigade-shared-resource"
+  name = "cloudtrail-shared-resource"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -140,7 +140,7 @@ resource "aws_cloudtrail" "shared-resources" {
 
 resource "aws_cloudtrail" "security" {
   provider = aws.security
-  name = "cloudtrail-secure-brigade-security"
+  name = "cloudtrail-security"
   s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
@@ -159,10 +159,11 @@ resource "aws_cloudtrail" "security" {
 }
 
 // ---------------------------------------
-// S3 Settings in Logging AWS Accounts
+// S3 Settings in Compliance AWS Accounts
 // ---------------------------------------
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket = "cloudtail-bucket-secure-brigate"
+  provider = aws.compliance
+  bucket = "cloudtail"
 
   versioning {
     enabled = true
@@ -180,8 +181,14 @@ resource "aws_s3_bucket" "cloudtrail" {
   lifecycle_rule {
     enabled = true
 
-    expiration {
+    transition {
       days = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days = 60
+      storage_class = "GLACIER"
     }
   }
 
@@ -200,19 +207,19 @@ resource "aws_s3_bucket" "cloudtrail" {
 
       destination {
         bucket = aws_s3_bucket.cloudtrail-replication.arn
-        storage_class = "STANDARD_IA"
+        storage_class = "STANDARD"
         replica_kms_key_id = aws_kms_key.cloudtrail-replication.arn
         access_control_translation {
           owner = "Destination"
         }
-        account_id = var.compliance-account-id
+        account_id = var.logging-account-id
       }
     }
   }
 
   tags = {
     name = "cloudtail-bucket"
-    env = "logging"
+    env = "compliance"
     source = "CloudTrail"
     jobs = "audit-trail"
   }
@@ -228,7 +235,7 @@ resource "aws_s3_bucket" "cloudtrail" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::cloudtail-bucket-secure-brigate"
+            "Resource": "arn:aws:s3:::cloudtail"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -238,14 +245,14 @@ resource "aws_s3_bucket" "cloudtrail" {
             },
             "Action": "s3:PutObject",
             "Resource": [
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "master")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "compliance")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "sandbox")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "logging")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "stg")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "prod")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "shared-resources")}/*",
-                "arn:aws:s3:::cloudtail-bucket-secure-brigate/AWSLogs/${lookup(var.accounts, "security")}/*"
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "master")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "compliance")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "sandbox")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "logging")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "stg")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "prod")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "shared-resources")}/*",
+                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "security")}/*"
             ],
             "Condition": {
                 "StringEquals": {
@@ -259,26 +266,28 @@ POLICY
 }
 
 resource "aws_s3_bucket_public_access_block" "block-cloudtrail-logging" {
+  provider = aws.compliance
   bucket = aws_s3_bucket.cloudtrail.id
   block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_kms_key" "cloudtrail" {
+  provider = aws.compliance
   description = "key to encrypt/decrypt s3 storing cloudTrail"
 }
 
 resource "aws_kms_alias" "cloudtrail" {
+  provider = aws.compliance
   name = "alias/cloudTrail-bucket-key"
   target_key_id = aws_kms_key.cloudtrail.key_id
 }
 
 // ---------------------------------------
-// S3 Settings in Compliance AWS Accounts
+// S3 Settings in Logging AWS Accounts
 // ---------------------------------------
 resource "aws_s3_bucket" "cloudtrail-replication" {
-  provider = aws.compliance
-  bucket = "cloudtrail-replication-secure-brigade"
+  bucket = "cloudtrail-replication-bucket"
   region = var.region
 
   versioning {
@@ -297,9 +306,8 @@ resource "aws_s3_bucket" "cloudtrail-replication" {
   lifecycle_rule {
     enabled = true
 
-    transition {
+    expiration {
       days = 30
-      storage_class = "GLACIER"
     }
   }
 
@@ -309,21 +317,19 @@ resource "aws_s3_bucket" "cloudtrail-replication" {
 
   tags = {
     name = "cloudtail-bucket"
-    env = "compliance"
-    source = "CloudTrail in logging account"
+    env = "logging"
+    source = "CloudTrail in compliance account"
     jobs = "audit-trail"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail-replication" {
-  provider = aws.compliance
   bucket = aws_s3_bucket.cloudtrail-replication.id
   block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_kms_key" "cloudtrail-replication" {
-  provider = aws.compliance
   description = "key to encrypt/decrypt replication of CloudTrail from logging account"
   policy = <<EOF
 {
@@ -334,7 +340,7 @@ resource "aws_kms_key" "cloudtrail-replication" {
             "Sid": "Enable IAM User Permissions",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.compliance-account-id}:root"
+                "AWS": "arn:aws:iam::${var.logging-account-id}:root"
             },
             "Action": "kms:*",
             "Resource": "*"
@@ -343,7 +349,7 @@ resource "aws_kms_key" "cloudtrail-replication" {
             "Sid": "Enable cross account encrypt access for S3 Cross Region Replication",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.logging-account-id}:root"
+                "AWS": "arn:aws:iam::${var.compliance-account-id}:root"
             },
             "Action": "kms:Encrypt",
             "Resource": "*"
@@ -354,7 +360,7 @@ EOF
 }
 
 resource "aws_kms_alias" "cloudtrail-replication" {
-  provider = aws.compliance
   name = "alias/cloudtrail-replication-storage-key"
   target_key_id = aws_kms_key.cloudtrail-replication.key_id
 }
+

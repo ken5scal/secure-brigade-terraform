@@ -57,7 +57,7 @@ resource "aws_s3_bucket_policy" "cloudtrail-replication" {
             "Sid": "S3ReplicationPolicyStmt1",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.compliance-account-id}:root"
+                "AWS": "arn:aws:iam::${lookup(var.accounts, "compliance")}:root"
             },
             "Action": [
                 "s3:ReplicateObject",

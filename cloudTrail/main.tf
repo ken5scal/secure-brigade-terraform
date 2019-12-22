@@ -1,159 +1,159 @@
 # Cloud Trail Settings
 resource "aws_cloudtrail" "logging" {
-  name                  = "cloudtrail-logging"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  name = "cloudtrail-logging"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "master" {
-  provider              = aws.master
-  name                  = "cloudtrail-master"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.master
+  name = "cloudtrail-master"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "compliance" {
-  provider              = aws.compliance
-  name                  = "cloudtrail-compliance"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.compliance
+  name = "cloudtrail-compliance"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "sandbox" {
-  provider              = aws.sandbox
-  name                  = "cloudtrail-sandbox"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.sandbox
+  name = "cloudtrail-sandbox"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "stg" {
-  provider              = aws.stg
-  name                  = "cloudtrail-stg"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.stg
+  name = "cloudtrail-stg"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "prod" {
-  provider              = aws.prod
-  name                  = "cloudtrail-prod"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.prod
+  name = "cloudtrail-prod"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "shared-resources" {
-  provider              = aws.shared-resources
-  name                  = "cloudtrail-shared-resource"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.shared-resources
+  name = "cloudtrail-shared-resource"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
 
 resource "aws_cloudtrail" "security" {
-  provider              = aws.security
-  name                  = "cloudtrail-security"
-  s3_bucket_name        = aws_s3_bucket.cloudtrail.id
+  provider = aws.security
+  name = "cloudtrail-security"
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = true
 
   enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "All"
+    read_write_type = "All"
     include_management_events = true
 
     data_resource {
       type = "AWS::S3::Object"
       values = [
-      "arn:aws:s3:::"]
+        "arn:aws:s3:::"]
     }
   }
 }
@@ -163,7 +163,7 @@ resource "aws_cloudtrail" "security" {
 // ---------------------------------------
 resource "aws_s3_bucket" "cloudtrail" {
   provider = aws.compliance
-  bucket   = "cloudtail"
+  bucket = "cloudtail"
 
   versioning {
     enabled = true
@@ -172,7 +172,7 @@ resource "aws_s3_bucket" "cloudtrail" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
         kms_master_key_id = aws_kms_key.cloudtrail.key_id
       }
     }
@@ -182,12 +182,12 @@ resource "aws_s3_bucket" "cloudtrail" {
     enabled = true
 
     transition {
-      days          = 30
+      days = 30
       storage_class = "STANDARD_IA"
     }
 
     transition {
-      days          = 60
+      days = 60
       storage_class = "GLACIER"
     }
   }
@@ -196,7 +196,7 @@ resource "aws_s3_bucket" "cloudtrail" {
     role = aws_iam_role.cloudtrail.arn
 
     rules {
-      id     = "cloudtrail-logging"
+      id = "cloudtrail-logging"
       status = "Enabled"
 
       source_selection_criteria {
@@ -206,22 +206,22 @@ resource "aws_s3_bucket" "cloudtrail" {
       }
 
       destination {
-        bucket             = aws_s3_bucket.cloudtrail-replication.arn
-        storage_class      = "STANDARD"
+        bucket = aws_s3_bucket.cloudtrail-replication.arn
+        storage_class = "STANDARD"
         replica_kms_key_id = aws_kms_key.cloudtrail-replication.arn
         access_control_translation {
           owner = "Destination"
         }
-        account_id = var.logging-account-id
+        account_id = lookup(var.accounts, "logging")
       }
     }
   }
 
   tags = {
-    name   = "cloudtail-bucket"
-    env    = "compliance"
+    name = "cloudtail-bucket"
+    env = "compliance"
     source = "CloudTrail"
-    jobs   = "audit-trail"
+    jobs = "audit-trail"
   }
 
   policy = <<POLICY
@@ -266,20 +266,20 @@ POLICY
 }
 
 resource "aws_s3_bucket_public_access_block" "block-cloudtrail-logging" {
-  provider            = aws.compliance
-  bucket              = aws_s3_bucket.cloudtrail.id
-  block_public_acls   = true
+  provider = aws.compliance
+  bucket = aws_s3_bucket.cloudtrail.id
+  block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_kms_key" "cloudtrail" {
-  provider    = aws.compliance
+  provider = aws.compliance
   description = "key to encrypt/decrypt s3 storing cloudTrail"
 }
 
 resource "aws_kms_alias" "cloudtrail" {
-  provider      = aws.compliance
-  name          = "alias/cloudTrail-bucket-key"
+  provider = aws.compliance
+  name = "alias/cloudTrail-bucket-key"
   target_key_id = aws_kms_key.cloudtrail.key_id
 }
 
@@ -297,7 +297,7 @@ resource "aws_s3_bucket" "cloudtrail-replication" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "aws:kms"
+        sse_algorithm = "aws:kms"
         kms_master_key_id = aws_kms_key.cloudtrail-replication.key_id
       }
     }
@@ -316,22 +316,22 @@ resource "aws_s3_bucket" "cloudtrail-replication" {
   }
 
   tags = {
-    name   = "cloudtail-bucket"
-    env    = "logging"
+    name = "cloudtail-bucket"
+    env = "logging"
     source = "CloudTrail in compliance account"
-    jobs   = "audit-trail"
+    jobs = "audit-trail"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail-replication" {
-  bucket              = aws_s3_bucket.cloudtrail-replication.id
-  block_public_acls   = true
+  bucket = aws_s3_bucket.cloudtrail-replication.id
+  block_public_acls = true
   block_public_policy = true
 }
 
 resource "aws_kms_key" "cloudtrail-replication" {
   description = "key to encrypt/decrypt replication of CloudTrail from logging account"
-  policy      = <<EOF
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Id": "key-default-1",
@@ -340,7 +340,7 @@ resource "aws_kms_key" "cloudtrail-replication" {
             "Sid": "Enable IAM User Permissions",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.logging-account-id}:root"
+                "AWS": "arn:aws:iam::${lookup(var.accounts, "logging")}:root"
             },
             "Action": "kms:*",
             "Resource": "*"
@@ -349,7 +349,7 @@ resource "aws_kms_key" "cloudtrail-replication" {
             "Sid": "Enable cross account encrypt access for S3 Cross Region Replication",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.compliance-account-id}:root"
+                "AWS": "arn:aws:iam::${lookup(var.accounts, "compliance")}:root"
             },
             "Action": "kms:Encrypt",
             "Resource": "*"
@@ -360,7 +360,7 @@ EOF
 }
 
 resource "aws_kms_alias" "cloudtrail-replication" {
-  name          = "alias/cloudtrail-replication-storage-key"
+  name = "alias/cloudtrail-replication-storage-key"
   target_key_id = aws_kms_key.cloudtrail-replication.key_id
 }
 

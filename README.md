@@ -22,3 +22,8 @@ AWS Terraform files used in Secure Brigade
  * [] [S3 Access Points](https://aws.amazon.com/jp/blogs/aws/easily-manage-shared-data-sets-with-amazon-s3-access-points/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=re:Invent&sc_outcome=awareness&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78154390)
  * [] [Monitor unused IAM roles with AWS Config](https://t.co/CP2z75ahFK?amp=1)
  
+ ## KMS
+ * [] digital signature
+ 
+ ## Response 
+  * [] [diffy](https://medium.com/netflix-techblog/netflix-sirt-releases-diffy-a-differencing-engine-for-digital-forensics-in-the-cloud-37b71abd2698)

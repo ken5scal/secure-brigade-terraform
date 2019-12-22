@@ -9,6 +9,16 @@ AWS Terraform files used in Secure Brigade
  * Terraform Backend S3 & its KMS key
 
 # TODO
+## Initial Configs
+ * [x] CloudTrail
+ * [x] GuardDuty
+ * [x] Config
+ * [x] SecurityHub 
+ * [ ] Trusted Advisor
+
+## S3
+ * Centralize or Replicate config-bucket to one place and set lifecycle
+
 ## IAM
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
  * [] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)

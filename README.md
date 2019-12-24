@@ -14,7 +14,13 @@ AWS Terraform files used in Secure Brigade
  * [x] GuardDuty
  * [x] Config
  * [x] SecurityHub 
- * [ ] Trusted Advisor
+ * [x] Trusted Advisor
+ * [ ] Inspector
+ * [ ] Flowlog
+
+## Config
+ * [ ] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
+ * [ ] Fix warnings
 
 ## S3
  * Centralize or Replicate config-bucket to one place and set lifecycle

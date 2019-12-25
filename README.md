@@ -11,9 +11,9 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## Initial Configs
  * [x] CloudTrail
- * [x] GuardDuty
- * [x] Config
- * [x] SecurityHub 
+ * [x] [GuardDuty](https://github.com/aws-samples/amazon-guardduty-multiaccount-scripts)
+ * [x] [Config](https://github.com/awslabs/aws-securityhub-multiaccount-scripts)
+ * [x] [SecurityHub](https://github.com/awslabs/aws-securityhub-multiaccount-scripts) 
  * [x] Trusted Advisor
  * [ ] Inspector
  * [ ] Flowlog

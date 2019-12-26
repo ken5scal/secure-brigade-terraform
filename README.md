@@ -9,17 +9,26 @@ AWS Terraform files used in Secure Brigade
  * Terraform Backend S3 & its KMS key
 
 # TODO
+## In General
+ * [ ] Fix warnings raised by AWS Configs
+
 ## Initial Configs
  * [x] CloudTrail
  * [x] [GuardDuty](https://github.com/aws-samples/amazon-guardduty-multiaccount-scripts)
  * [x] [Config](https://github.com/awslabs/aws-securityhub-multiaccount-scripts)
+    * The above script misses enabling aws config in some aws accounts and region 
  * [x] [SecurityHub](https://github.com/awslabs/aws-securityhub-multiaccount-scripts) 
  * [x] Trusted Advisor
  * [ ] Inspector
  * [ ] Flowlog
 
+## Cloud Trail
+ * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988) 
+ 
+
 ## Config
  * [ ] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
+ * [ ] Turn on configuration stream
  * [ ] Fix warnings
 
 ## S3

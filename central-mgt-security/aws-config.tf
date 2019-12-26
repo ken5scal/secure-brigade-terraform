@@ -3,13 +3,20 @@
 
 resource "aws_s3_bucket" "config-bucket" {
   provider = aws.shared-resources
-  bucket = "aws-config-bucket-for-secure-brigade"
+  bucket   = "aws-config-bucket-for-secure-brigade"
+}
+
+resource "aws_s3_bucket_public_access_block" "config-bucket" {
+  provider            = aws.shared-resources
+  bucket              = aws_s3_bucket.config-bucket.id
+  block_public_acls   = true
+  block_public_policy = true
 }
 
 resource "aws_s3_bucket_policy" "config-bucket" {
   provider = aws.shared-resources
-  bucket = aws_s3_bucket.config-bucket.id
-  policy = <<POLICY
+  bucket   = aws_s3_bucket.config-bucket.id
+  policy   = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [

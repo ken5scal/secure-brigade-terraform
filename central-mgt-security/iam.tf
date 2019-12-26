@@ -5,14 +5,14 @@ resource "aws_iam_role" "initializer" {
 }
 
 resource "aws_iam_role_policy" "initializer" {
-  name     = var.initializerPolicy
-  role     = aws_iam_role.initializer.id
-  policy   = data.aws_iam_policy_document.initializer.json
+  name   = var.initializerPolicy
+  role   = aws_iam_role.initializer.id
+  policy = data.aws_iam_policy_document.initializer.json
 }
 
 // in master account
 resource "aws_iam_role" "initializer-master" {
-  provider = aws.master
+  provider           = aws.master
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -26,7 +26,7 @@ resource "aws_iam_role_policy" "initializer-master" {
 
 // in compliance account
 resource "aws_iam_role" "initializer-compliance" {
-  provider = aws.compliance
+  provider           = aws.compliance
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -40,7 +40,7 @@ resource "aws_iam_role_policy" "initializer-compliance" {
 
 // in stg account
 resource "aws_iam_role" "initializer-stg" {
-  provider = aws.stg
+  provider           = aws.stg
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -54,7 +54,7 @@ resource "aws_iam_role_policy" "initializer-stg" {
 
 // in prod account
 resource "aws_iam_role" "initializer-prod" {
-  provider = aws.prod
+  provider           = aws.prod
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -68,7 +68,7 @@ resource "aws_iam_role_policy" "initializer-prod" {
 
 // in logging account
 resource "aws_iam_role" "initializer-logging" {
-  provider = aws.logging
+  provider           = aws.logging
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -82,7 +82,7 @@ resource "aws_iam_role_policy" "initializer-logging" {
 
 // in shared-resources account
 resource "aws_iam_role" "initializer-shared-resources" {
-  provider = aws.shared-resources
+  provider           = aws.shared-resources
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }
@@ -96,7 +96,7 @@ resource "aws_iam_role_policy" "initializer-shared-resources" {
 
 // in sandbox account
 resource "aws_iam_role" "initializer-sandbox" {
-  provider = aws.sandbox
+  provider           = aws.sandbox
   name               = var.initializerRole
   assume_role_policy = data.aws_iam_policy_document.aws-centralized-security-master.json
 }

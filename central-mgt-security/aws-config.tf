@@ -70,98 +70,66 @@ resource "aws_kms_alias" "config-bucket" {
 resource "aws_s3_bucket_policy" "config-bucket" {
   provider = aws.shared-resources
   bucket   = aws_s3_bucket.config-bucket.id
-  policy   = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "config.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::aws-config-bucket-for-secure-brigade"
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "config.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::aws-config-bucket-for-secure-brigade/AWSLogs/${lookup(var.accounts, "shared-resources")}/Config/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "${aws_iam_role.config-mgt.arn}"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::aws-config-bucket-for-secure-brigade"
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "${aws_iam_role.config-mgt.arn}"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::aws-config-bucket-for-secure-brigade/AWSLogs/${lookup(var.accounts, "security")}/Config/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
+  policy   = data.aws_iam_policy_document.config-recorder.json
 }
 
-// in security account
-resource "aws_iam_role" "config-mgt" {
-  name               = "AWSConfigMgtRole"
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "config.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
+module "iam-config-mgt-master" {
+  providers = {
+    aws = aws.master
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
-resource "aws_iam_role_policy_attachment" "get-config" {
-  role = aws_iam_role.config-mgt.name
-  // predefined policy
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+module "iam-config-mgt-compliance" {
+  providers = {
+    aws = aws.compliance
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
-resource "aws_iam_role_policy" "transfer-record" {
-  name   = "AWSConfigRecordTransferPolicy"
-  role   = aws_iam_role.config-mgt.id
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:PutObjectAcl"
-            ],
-            "Resource": "${aws_s3_bucket.config-bucket.arn}/*"
-        }
-    ]
+module "iam-config-mgt-sandbox" {
+  providers = {
+    aws = aws.sandbox
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
-POLICY
+
+module "iam-config-mgt-logging" {
+  providers = {
+    aws = aws.logging
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
+}
+
+module "iam-config-mgt-stg" {
+  providers = {
+    aws = aws.stg
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
+}
+
+module "iam-config-mgt-prod" {
+  providers = {
+    aws = aws.prod
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
+}
+
+module "iam-config-mgt-shared-resources" {
+  providers = {
+    aws = aws.shared-resources
+  }
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
+}
+
+module "iam-config-mgt-security" {
+  source                     = "./modules"
+  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }

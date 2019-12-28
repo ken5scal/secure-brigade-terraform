@@ -1,6 +1,5 @@
 // Defined in ../global.tfvars
-variable "shared-resources-account-id" {}
-variable "logging-account-id" {}
+variable "accounts" {}
 variable "region" {}
 variable "environment" {
   default = "terraform"

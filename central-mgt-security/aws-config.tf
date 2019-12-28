@@ -32,6 +32,10 @@ resource "aws_s3_bucket" "config-bucket" {
       days          = 60
       storage_class = "GLACIER"
     }
+
+    expiration {
+      days = 90
+    }
   }
 
   tags = {
@@ -43,10 +47,12 @@ resource "aws_s3_bucket" "config-bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "config-bucket" {
-  provider            = aws.shared-resources
-  bucket              = aws_s3_bucket.config-bucket.id
-  block_public_acls   = true
-  block_public_policy = true
+  provider                = aws.shared-resources
+  bucket                  = aws_s3_bucket.config-bucket.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_kms_key" "config-bucket" {
@@ -139,7 +145,7 @@ resource "aws_iam_role_policy_attachment" "get-config" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
 
-resource "aws_iam_policy" "transfer-record" {
+resource "aws_iam_role_policy" "transfer-record" {
   name   = "AWSConfigRecordTransferPolicy"
   role   = aws_iam_role.config-mgt.id
   policy = <<POLICY

@@ -34,6 +34,7 @@ AWS Terraform files used in Secure Brigade
  * Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
+ * [] Set Alarm/Log for root account logging in
  * [] Set IAM password Policies
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
  * [] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)

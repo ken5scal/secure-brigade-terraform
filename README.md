@@ -25,16 +25,16 @@ AWS Terraform files used in Secure Brigade
 ## Cloud Trail
  * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988) 
  
-
 ## Config
- * [ ] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
- * [ ] Turn on configuration stream
+ * [x] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
+ * [ ] Turn on configuration stream (SNS topic)
  * [ ] Fix warnings
 
 ## S3
  * Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
+ * [] Set IAM password Policies
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
  * [] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)
  * [] [tag policies](https://aws.amazon.com/jp/blogs/aws/new-use-tag-policies-to-manage-tags-across-multiple-aws-accounts/)

@@ -35,7 +35,8 @@ resource "aws_s3_bucket_public_access_block" "block-terraform-backend" {
 }
 
 resource "aws_kms_key" "terraform-backend" {
-  description = "key to encrypt/decrypt terraform backend in S3"
+  description         = "key to encrypt/decrypt terraform backend in S3"
+  enable_key_rotation = true
 }
 
 resource "aws_kms_alias" "terraform-backend" {

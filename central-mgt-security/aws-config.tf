@@ -56,8 +56,9 @@ resource "aws_s3_bucket_public_access_block" "config-bucket" {
 }
 
 resource "aws_kms_key" "config-bucket" {
-  provider    = aws.shared-resources
-  description = "key to encrypt/decrypt s3 storing AWS Configs"
+  provider            = aws.shared-resources
+  description         = "key to encrypt/decrypt s3 storing AWS Configs"
+  enable_key_rotation = true
 }
 
 resource "aws_kms_alias" "config-bucket" {

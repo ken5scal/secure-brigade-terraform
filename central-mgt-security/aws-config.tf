@@ -1,5 +1,8 @@
 // AWS Confg it self was turned on by following script and manual.
 // https://github.com/awslabs/aws-securityhub-multiaccount-scripts
+// But DON'T USE THEM IN THE FUTURE
+// After applying this terraform resource, execute following line in order to activate AWS Config recorders.
+// `for i in "${REGIONS[@]}"; do echo "## Status of $i" && aws configservice put-configuration-recorder --configuration-recorder roleARN=arn:aws:iam::"$ACCOUNT":role/AWSConfigMgtRole,name=default --recording-group allSupported=true,includeGlobalResourceTypes=true --region=$i && aws configservice put-delivery-channel --delivery-channel name=config-s3-delivery,s3BucketName=aws-config-bucket-for-secure-brigade --region=$i ; done`
 
 // Centrailized AWS Config recorder bucket
 resource "aws_s3_bucket" "config-bucket" {

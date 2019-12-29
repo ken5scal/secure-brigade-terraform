@@ -11,6 +11,7 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## In General
  * [ ] Fix warnings raised by AWS Configs
+ * [ ] Split repository based on the domain (like development lifecycle)
 
 ## Initial Configs
  * [x] CloudTrail
@@ -36,6 +37,7 @@ AWS Terraform files used in Secure Brigade
 ## IAM
  * [] Set Alarm/Log for root account logging in
  * [] Set IAM password Policies
+ * [] Set up iam role so that terraform operation can assume role in cross account environment
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
  * [] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)
  * [] [tag policies](https://aws.amazon.com/jp/blogs/aws/new-use-tag-policies-to-manage-tags-across-multiple-aws-accounts/)

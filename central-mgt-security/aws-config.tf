@@ -80,7 +80,7 @@ module "iam-config-mgt-master" {
   providers = {
     aws = aws.master
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -88,7 +88,7 @@ module "iam-config-mgt-compliance" {
   providers = {
     aws = aws.compliance
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -96,7 +96,7 @@ module "iam-config-mgt-sandbox" {
   providers = {
     aws = aws.sandbox
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -104,7 +104,7 @@ module "iam-config-mgt-logging" {
   providers = {
     aws = aws.logging
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -112,7 +112,7 @@ module "iam-config-mgt-stg" {
   providers = {
     aws = aws.stg
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -120,7 +120,7 @@ module "iam-config-mgt-prod" {
   providers = {
     aws = aws.prod
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
@@ -128,11 +128,11 @@ module "iam-config-mgt-shared-resources" {
   providers = {
     aws = aws.shared-resources
   }
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
 module "iam-config-mgt-security" {
-  source                     = "./modules"
+  source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }

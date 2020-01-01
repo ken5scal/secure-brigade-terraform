@@ -12,6 +12,8 @@ AWS Terraform files used in Secure Brigade
 ## In General
  * [ ] Fix warnings raised by AWS Configs
  * [ ] Split repository based on the domain (like development lifecycle)
+    * ex: centra-mgt-security, service env, compliance...
+ * [ ] Makefile
 
 ## Initial Configs
  * [x] CloudTrail
@@ -32,7 +34,7 @@ AWS Terraform files used in Secure Brigade
  * [ ] Fix warnings
 
 ## S3
- * Centralize or Replicate config-bucket to one place and set lifecycle
+ * [x] Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
  * [] Set Alarm/Log for root account logging in

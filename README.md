@@ -37,7 +37,7 @@ AWS Terraform files used in Secure Brigade
  * [x] Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
- * [] Set Alarm/Log for root account logging in
+ * [x] Set Alarm/Log for root account usage (based on CIS Benchmark)
  * [x] Set IAM password Policies
  * [] Set up iam role so that terraform operation can assume role in cross account environment
  * [] IAM to prohibit EC2 instances only use IMDSv2

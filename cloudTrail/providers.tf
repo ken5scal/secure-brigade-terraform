@@ -14,9 +14,3 @@ provider "aws" {
   region  = "ap-northeast-1"
   profile = "${lookup(var.accounts, "logging")}_AdministratorAccess"
 }
-
-provider "aws" {
-  alias   = "security"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "security")}_AdministratorAccess"
-}

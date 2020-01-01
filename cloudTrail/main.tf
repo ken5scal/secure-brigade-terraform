@@ -22,7 +22,7 @@ resource "aws_cloudtrail" "master" {
 resource "aws_cloudwatch_log_group" "cloudtrail" {
   // Cloud Watch Log must be in the same account as sending CloudTrail
   name              = "CloudTrailLogs"
-  retention_in_days = 30
+  retention_in_days = 7
 
   tags = {
     Name   = "CloudTrailLogs"
@@ -30,4 +30,40 @@ resource "aws_cloudwatch_log_group" "cloudtrail" {
     Source = "CloudTrail"
     jobs   = "log-analysis"
   }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "root-account-usage-detection" {
+  name           = "RootAccountLogin"
+  log_group_name = aws_cloudwatch_log_group.cloudtrail.name
+  pattern        = "{ $.userIdentity.type = \"Root\" && $.userIdentity.invokedBy NOT EXISTS && $.eventType != \"AwsServiceEvent\" }"
+
+  metric_transformation {
+    name      = "CloudTrailLog"
+    namespace = "LogMetrics"
+    value     = 1
+  }
+}
+
+resource "aws_sns_topic" "root-account-usage-detection" {
+  name = "rootAccountUsageDetection"
+}
+
+resource "aws_sns_topic_subscription" "root-account-usage-detection" {
+  topic_arn = aws_sns_topic.root-account-usage-detection.arn
+  protocol  = "https"
+  // AWS Chatbot is created manually because terraform is not ready yet
+  endpoint = "https://global.sns-api.chatbot.amazonaws.com"
+}
+
+resource "aws_cloudwatch_metric_alarm" "root-account-usage-detection" {
+  alarm_name          = "CIS-1.1-RootAccountUsage"
+  namespace           = "CISBenchmark"
+  metric_name         = aws_cloudwatch_log_metric_filter.root-account-usage-detection.name
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = 1
+  statistic           = "Sum"
+  alarm_actions = [
+  aws_sns_topic.root-account-usage-detection.arn]
 }

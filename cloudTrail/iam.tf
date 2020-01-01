@@ -1,4 +1,46 @@
-resource "aws_iam_role" "cloudtrail" {
+resource "aws_iam_role" "cloudtrail-servie" {
+  name               = "SecureBrigadeCloudTrailServiceRole"
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "cloudtrail.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "cloudtrail-to-cw-log" {
+  role   = aws_iam_role.cloudtrail-servie.name
+  name   = "SendCloudTrailLogToCloudWatchLogPolicy"
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:log-group:${aws_cloudwatch_log_group.cloudtrail.name}:log-stream:*"
+            ]
+        }
+    ]
+}
+POLICY
+}
+
+// Role for S3 bucket to replicate objects into other s3 bucket
+resource "aws_iam_role" "cloudtrail-replicate-object" {
   provider           = aws.compliance
   name               = "CloudTrailReplicationRole"
   assume_role_policy = <<POLICY
@@ -18,7 +60,7 @@ resource "aws_iam_role" "cloudtrail" {
 POLICY
 }
 
-resource "aws_iam_policy" "cloudtrail" {
+resource "aws_iam_policy" "cloudtrail-replicate-object" {
   provider = aws.compliance
   name     = "CloudTrailReplicationPolicy"
   # Sid 1: Allow original bucket (or s3 as principal) can get replication config and List
@@ -40,38 +82,8 @@ resource "aws_iam_policy" "cloudtrail" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "cloudtrail" {
+resource "aws_iam_role_policy_attachment" "cloudtrail-replicate-object" {
   provider   = aws.compliance
-  role       = aws_iam_role.cloudtrail.name
-  policy_arn = aws_iam_policy.cloudtrail.arn
-}
-
-resource "aws_s3_bucket_policy" "cloudtrail-replication" {
-  bucket = aws_s3_bucket.cloudtrail-replication.id
-  policy = <<EOF
-{
-    "Version": "2008-10-17",
-    "Id": "S3-Console-Replication-Policy",
-    "Statement": [
-        {
-            "Sid": "S3ReplicationPolicyStmt1",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::${lookup(var.accounts, "compliance")}:root"
-            },
-            "Action": [
-                "s3:ReplicateObject",
-                "s3:ReplicateDelete",
-                "s3:GetBucketVersioning",
-                "s3:PutBucketVersioning",
-                "s3:ObjectOwnerOverrideToBucketOwner"
-            ],
-            "Resource": [
-                "${aws_s3_bucket.cloudtrail-replication.arn}",
-                "${aws_s3_bucket.cloudtrail-replication.arn}/*"
-            ]
-        }
-    ]
-}
-EOF
+  role       = aws_iam_role.cloudtrail-replicate-object.name
+  policy_arn = aws_iam_policy.cloudtrail-replicate-object.arn
 }

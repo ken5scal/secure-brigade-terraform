@@ -11,6 +11,7 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## In General
  * [ ] Fix warnings raised by AWS Configs
+    * `Ensure hardware MFA is enabled for the 'root' account` is archived because AWS is not yet allowed to register multiple HW keys
  * [ ] Split repository based on the domain (like development lifecycle)
     * ex: centra-mgt-security, service env, compliance...
  * [ ] Makefile
@@ -31,7 +32,6 @@ AWS Terraform files used in Secure Brigade
 ## Config
  * [x] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
  * [ ] Turn on configuration stream (SNS topic)
- * [ ] Fix warnings
 
 ## S3
  * [x] Centralize or Replicate config-bucket to one place and set lifecycle

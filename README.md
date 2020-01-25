@@ -33,12 +33,16 @@ AWS Terraform files used in Secure Brigade
  * [x] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
  * [ ] Turn on configuration stream (SNS topic)
 
+## Route53
+ * [ ] [Simplify DNS management in a multi-account environment with Route 53 Resolver](https://aws.amazon.com/jp/blogs/security/simplify-dns-management-in-a-multiaccount-environment-with-route-53-resolver/)
+
 ## S3
  * [x] Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
  * [x] Set Alarm/Log for root account usage (based on CIS Benchmark)
  * [x] Set IAM password Policies
+ * [ ] [wHow to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
  * [] Set up iam role so that terraform operation can assume role in cross account environment
  * [] IAM to prohibit EC2 instances only use IMDSv2
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
@@ -54,7 +58,14 @@ AWS Terraform files used in Secure Brigade
  * [] [Monitor unused IAM roles with AWS Config](https://t.co/CP2z75ahFK?amp=1)
  
  ## KMS
- * [] digital signature
+ * [ ] digital signature
+ 
+ ## CodePiplein
+ * [ ] [How to use CI/CD to deploy and configure AWS security services with Terraform
+](https://aws.amazon.com/jp/blogs/security/how-use-ci-cd-deploy-configure-aws-security-services-terraform/)
+ 
+ ## API Gateway
+ * [ ] [JWT Authorizers](https://dev.classmethod.jp/cloud/aws/amazon-api-gateway-jwt-authorizers/?fbclid=IwAR1fB8FChn5Cc8xkYSkhtAnshwmbfW1yF81nQU8yZUFDEB8u3F2bPZBjDig)
  
  ## Response 
   * [] [diffy](https://medium.com/netflix-techblog/netflix-sirt-releases-diffy-a-differencing-engine-for-digital-forensics-in-the-cloud-37b71abd2698)

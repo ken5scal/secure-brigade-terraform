@@ -45,6 +45,9 @@ AWS Terraform files used in Secure Brigade
 
 ## IAM
  * [x] Set Alarm/Log for root account usage (based on CIS Benchmark)
+   * [ ] import to terraform
+   * [ ] Apply to other regions using terraform
+   * [ ] Disable security hub compliance in all aws accounts except the master 
  * [x] Set IAM password Policies
  * [ ] [wHow to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
  * [] Set up iam role so that terraform operation can assume role in cross account environment

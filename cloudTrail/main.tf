@@ -67,4 +67,6 @@ resource "aws_cloudwatch_metric_alarm" "root-account-usage-detection" {
   statistic           = "Sum"
   alarm_actions = [
   aws_sns_topic.root-account-usage-detection.arn]
+  ok_actions = [
+  aws_sns_topic.root-account-usage-detection.arn]
 }

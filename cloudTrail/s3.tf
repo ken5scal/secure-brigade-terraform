@@ -18,6 +18,11 @@ resource "aws_s3_bucket" "cloudtrail" {
     }
   }
 
+  logging {
+    target_bucket = aws_s3_bucket.log.id
+    target_prefix = "log/"
+  }
+
   lifecycle_rule {
     enabled = true
 
@@ -124,6 +129,21 @@ resource "aws_kms_alias" "cloudtrail" {
   provider      = aws.compliance
   name          = "alias/cloudTrail-bucket-key"
   target_key_id = aws_kms_key.cloudtrail.key_id
+}
+
+resource "aws_s3_bucket" "log" {
+  provider = aws.compliance
+  bucket   = "cloudtail-bucket-access-log"
+  acl      = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_public_access_block" "block-log" {
+  provider                = aws.compliance
+  bucket                  = aws_s3_bucket.log.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 // ---------------------------------------

@@ -53,7 +53,8 @@ resource "aws_sns_topic_subscription" "root-account-usage-detection" {
   topic_arn = aws_sns_topic.root-account-usage-detection.arn
   protocol  = "https"
   // AWS Chatbot is created manually because terraform is not ready yet
-  endpoint = "https://global.sns-api.chatbot.amazonaws.com"
+  endpoint               = "https://global.sns-api.chatbot.amazonaws.com"
+  endpoint_auto_confirms = true
 }
 
 resource "aws_cloudwatch_metric_alarm" "root-account-usage-detection" {
@@ -64,6 +65,7 @@ resource "aws_cloudwatch_metric_alarm" "root-account-usage-detection" {
   period              = 300
   evaluation_periods  = 1
   threshold           = 1
+  datapoints_to_alarm = 1
   statistic           = "Sum"
   alarm_actions = [
   aws_sns_topic.root-account-usage-detection.arn]

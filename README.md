@@ -11,7 +11,6 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## In General
  * [ ] Fix warnings raised by AWS Configs
-    * `Ensure hardware MFA is enabled for the 'root' account` is archived because AWS is not yet allowed to register multiple HW keys
  * [ ] Split repository based on the domain (like development lifecycle)
     * ex: centra-mgt-security, service env, compliance...
  * [ ] Makefile
@@ -28,7 +27,7 @@ AWS Terraform files used in Secure Brigade
 
 ## Organization
  * [ ] AWS Health
- * [ ] Other settings (listed in IAM section_ 
+ * [ ] Other settings (listed in IAM section)
 
 ## Cloud Trail
  * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988) 
@@ -44,12 +43,9 @@ AWS Terraform files used in Secure Brigade
  * [x] Centralize or Replicate config-bucket to one place and set lifecycle
 
 ## IAM
- * [x] Set Alarm/Log for root account usage (based on CIS Benchmark)
-   * [ ] import to terraform
-   * [ ] Apply to other regions using terraform
-   * [ ] Disable security hub compliance in all aws accounts except the master 
+ * [x] Set Alarm/Log for root account usage (based on CIS Benchmark) 
  * [x] Set IAM password Policies
- * [ ] [wHow to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
+ * [ ] [How to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
  * [] Set up iam role so that terraform operation can assume role in cross account environment
  * [] IAM to prohibit EC2 instances only use IMDSv2
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)

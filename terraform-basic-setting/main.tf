@@ -43,19 +43,3 @@ resource "aws_kms_alias" "terraform-backend" {
   name          = "alias/terraform-backend-key"
   target_key_id = aws_kms_key.terraform-backend.key_id
 }
-
-module "terraform-administrator-in-logging" {
-  providers = {
-    aws = aws.logging
-  }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
-  jobs                     = "administrating"
-  env                      = "logging"
-  aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
-}
-
-data "aws_iam_policy" "administrator-access" {
-  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-}

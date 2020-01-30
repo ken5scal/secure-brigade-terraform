@@ -46,7 +46,7 @@ AWS Terraform files used in Secure Brigade
  * [x] Set Alarm/Log for root account usage (based on CIS Benchmark) 
  * [x] Set IAM password Policies
  * [ ] [How to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
- * [] Set up iam role so that terraform operation can assume role in cross account environment
+ * [x] Set up iam role so that terraform operation can assume role in cross account environment
  * [] IAM to prohibit EC2 instances only use IMDSv2
  * [] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
  * [] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)

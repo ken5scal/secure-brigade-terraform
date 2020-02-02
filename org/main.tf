@@ -1,6 +1,5 @@
 provider "aws" {
-  region     = "ap-northeast-1"
-  profile    = "791325445011_AdministratorAccess" // aws(master) profile in ~/.aws/credentials
+  region = "ap-northeast-1"
 }
 
 resource "aws_organizations_account" "security" {

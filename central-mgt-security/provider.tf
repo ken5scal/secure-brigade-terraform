@@ -1,46 +1,73 @@
 provider "aws" {
-  alias   = "master"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "master")}_AdministratorAccess"
+  alias  = "master"
+  region = "ap-northeast-1"
 }
 
 provider "aws" {
-  alias   = "compliance"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "compliance")}_AdministratorAccess"
+  alias  = "compliance"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "compliance")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "sandbox"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "sandbox")}_AdministratorAccess"
+  alias  = "sandbox"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "sandbox")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "logging"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "logging")}_AdministratorAccess"
+  alias  = "logging"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "logging")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "stg"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "stg")}_AdministratorAccess"
+  alias  = "stg"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "stg")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "prod"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "prod")}_AdministratorAccess"
+  alias  = "prod"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "prod")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "shared-resources"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "shared-resources")}_AdministratorAccess"
+  alias  = "shared-resources"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "shared-resources")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "security")}_AdministratorAccess"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "security")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }

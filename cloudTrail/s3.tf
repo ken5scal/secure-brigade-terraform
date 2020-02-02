@@ -43,30 +43,31 @@ resource "aws_s3_bucket" "cloudtrail" {
     //}
   }
 
-  replication_configuration {
-    role = aws_iam_role.cloudtrail-replicate-object.arn
-
-    rules {
-      id     = "cloudtrail-logging"
-      status = "Enabled"
-
-      source_selection_criteria {
-        sse_kms_encrypted_objects {
-          enabled = true
-        }
-      }
-
-      destination {
-        bucket             = aws_s3_bucket.cloudtrail-replication.arn
-        storage_class      = "STANDARD"
-        replica_kms_key_id = aws_kms_key.cloudtrail-replication.arn
-        access_control_translation {
-          owner = "Destination"
-        }
-        account_id = lookup(var.accounts, "logging")
-      }
-    }
-  }
+  // TODO FIX ME
+  //  replication_configuration {
+  //    role = aws_iam_role.cloudtrail-replicate-object.arn
+  //
+  //    rules {
+  //      id     = "cloudtrail-logging"
+  //      status = "Enabled"
+  //
+  //      source_selection_criteria {
+  //        sse_kms_encrypted_objects {
+  //          enabled = true
+  //        }
+  //      }
+  //
+  //      destination {
+  //        bucket             = aws_s3_bucket.cloudtrail-replication.arn
+  //        storage_class      = "STANDARD"
+  //        replica_kms_key_id = aws_kms_key.cloudtrail-replication.arn
+  //        access_control_translation {
+  //          owner = "Destination"
+  //        }
+  //        account_id = lookup(var.accounts, "logging")
+  //      }
+  //    }
+  //  }
 
   tags = {
     Name   = "cloudtail-bucket"

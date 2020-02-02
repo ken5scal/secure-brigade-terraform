@@ -1,16 +1,23 @@
 provider "aws" {
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "master")}_AdministratorAccess"
+  region = "ap-northeast-1"
 }
 
 provider "aws" {
-  alias   = "compliance"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "compliance")}_AdministratorAccess"
+  alias  = "compliance"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "compliance")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
-  alias   = "logging"
-  region  = "ap-northeast-1"
-  profile = "${lookup(var.accounts, "logging")}_AdministratorAccess"
+  alias  = "logging"
+  region = "ap-northeast-1"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "logging")}:role/TerraformAdministrativeRole"
+    session_name = "terraform-operation"
+  }
 }

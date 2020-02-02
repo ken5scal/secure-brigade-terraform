@@ -13,7 +13,7 @@ resource "aws_s3_bucket" "cloudtrail" {
     rule {
       apply_server_side_encryption_by_default {
         sse_algorithm     = "aws:kms"
-        kms_master_key_id = aws_kms_key.cloudtrail.key_id
+        kms_master_key_id = aws_kms_key.cloudtrail-bucket.key_id
       }
     }
   }
@@ -119,16 +119,16 @@ resource "aws_s3_bucket_public_access_block" "block-cloudtrail-logging" {
   restrict_public_buckets = true
 }
 
-resource "aws_kms_key" "cloudtrail" {
+resource "aws_kms_key" "cloudtrail-bucket" {
   provider            = aws.compliance
   description         = "key to encrypt/decrypt s3 storing cloudTrail"
   enable_key_rotation = true
 }
 
-resource "aws_kms_alias" "cloudtrail" {
+resource "aws_kms_alias" "cloudtrail-bucket" {
   provider      = aws.compliance
   name          = "alias/cloudTrail-bucket-key"
-  target_key_id = aws_kms_key.cloudtrail.key_id
+  target_key_id = aws_kms_key.cloudtrail-bucket.key_id
 }
 
 resource "aws_s3_bucket" "log" {

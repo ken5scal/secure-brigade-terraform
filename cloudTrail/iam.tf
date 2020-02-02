@@ -87,3 +87,21 @@ resource "aws_iam_role_policy_attachment" "cloudtrail-replicate-object" {
   role       = aws_iam_role.cloudtrail-replicate-object.name
   policy_arn = aws_iam_policy.cloudtrail-replicate-object.arn
 }
+
+resource "aws_iam_policy" "cloudtrail-key-from-master" {
+  provider    = aws.compliance
+  name        = "DecryptCloudTrailLogPolicy"
+  description = "Policy to decrypt cloudtrail log using ksm key in master account"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "${aws_kms_key.cloudtrail.arn}"
+    }
+  ]
+}
+EOF
+}

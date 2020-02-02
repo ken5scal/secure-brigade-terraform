@@ -14,6 +14,7 @@ AWS Terraform files used in Secure Brigade
  * [ ] Split repository based on the domain (like development lifecycle)
     * ex: centra-mgt-security, service env, compliance...
  * [ ] Makefile
+ * [ ] Make Modules for common settings (refer to s3, and kms section)
 
 ## Initial Configs
  * [x] CloudTrail
@@ -31,7 +32,8 @@ AWS Terraform files used in Secure Brigade
  * [ ] Other settings (listed in IAM section)
 
 ## Cloud Trail
- * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988) 
+ * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988)
+ * [ ] Fix S3 replication settings from cloudtrail bucket in compliance account
  
 ## Config
  * [x] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
@@ -42,6 +44,7 @@ AWS Terraform files used in Secure Brigade
 
 ## S3
  * [x] Centralize or Replicate config-bucket to one place and set lifecycle
+ * [ ] Create module to implement various default settings
 
 ## IAM
  * [ ] Change SSO policies so that AdministrativeAccount won't be able to modify billing settings
@@ -62,11 +65,11 @@ AWS Terraform files used in Secure Brigade
  * [ ] [S3 Access Points](https://aws.amazon.com/jp/blogs/aws/easily-manage-shared-data-sets-with-amazon-s3-access-points/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=re:Invent&sc_outcome=awareness&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78154390)
  * [ ] [Monitor unused IAM roles with AWS Config](https://t.co/CP2z75ahFK?amp=1)
 
- 
  ## KMS
  * [ ] digital signature
+ * [ ] Create module to implement various default settings
  
- ## CodePiplein
+ ## CodePipeline
  * [ ] [How to use CI/CD to deploy and configure AWS security services with Terraform
 ](https://aws.amazon.com/jp/blogs/security/how-use-ci-cd-deploy-configure-aws-security-services-terraform/)
  

@@ -10,7 +10,8 @@ AWS Terraform files used in Secure Brigade
 
 # TODO
 ## In General
- * [ ] Fix warnings raised by AWS Configs
+ * [ ] Fix warnings raised by AWS Configs in ap-northeast-1
+ * [ ] Fix warnings raised by AWS Configs in all regions
  * [ ] Split repository based on the domain (like development lifecycle)
     * ex: centra-mgt-security, service env, compliance...
  * [ ] Makefile

@@ -5,7 +5,7 @@ variable "environment" {
   default = "terraform"
 }
 variable "application" {
-  default = "security"
+  default = "central-mgt-security"
 }
 
 variable "initializerRole" {

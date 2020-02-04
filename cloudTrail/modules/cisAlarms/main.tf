@@ -3,6 +3,10 @@ variable cloudwatch-log-group-name {}
 variable pattern {}
 variable sns-topic-alarm-action-arn {}
 variable sns-topic-ok-action-arn {}
+variable alarm-threshold {
+  type    = number
+  default = 1
+}
 
 resource "aws_cloudwatch_log_metric_filter" "metric-filter" {
   name           = var.cis-name
@@ -24,7 +28,7 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   period              = 300
   evaluation_periods  = 1
-  threshold           = 1
+  threshold           = var.alarm-threshold
   datapoints_to_alarm = 1
   statistic           = "Sum"
   alarm_actions       = [var.sns-topic-alarm-action-arn]

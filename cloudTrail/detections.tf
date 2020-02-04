@@ -8,10 +8,12 @@ module "root-account-usage-detection" {
 }
 
 module "unauthorized-api-usage-detection" {
-  source                     = "./modules/cisAlarms"
-  cis-name                   = "AWS-CIS-3.1-UnauthorizedAPIUsage"
-  cloudwatch-log-group-name  = aws_cloudwatch_log_group.cloudtrail.name
-  pattern                    = "{($.errorCode=\"*UnauthorizedOperation\") || ($.errorCode=\"AccessDenied*\")}"
+  source                    = "./modules/cisAlarms"
+  cis-name                  = "AWS-CIS-3.1-UnauthorizedAPIUsage"
+  cloudwatch-log-group-name = aws_cloudwatch_log_group.cloudtrail.name
+  pattern                   = "{($.errorCode=\"*UnauthorizedOperation\") || ($.errorCode=\"AccessDenied*\")}"
+  //  pattern                    = "{($.errorCode=\"*UnauthorizedOperation\") || ($.errorCode=\"AccessDenied*\")  && ($.userAgent!=\"config.amazonaws.com\") }"
+  alarm-threshold            = 5
   sns-topic-alarm-action-arn = aws_sns_topic.aws-cis-benchmark.arn
   sns-topic-ok-action-arn    = aws_sns_topic.aws-cis-benchmark.arn
 }

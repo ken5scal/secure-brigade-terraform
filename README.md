@@ -11,9 +11,9 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## In General
  * [ ] Fix warnings raised by AWS Configs in ap-northeast-1
- * [ ] Fix warnings raised by AWS Configs in all regions
+ * [x] ~Fix warnings raised by AWS Configs in all regions~ Everything is aggregated in ap-northeast-1 of master account
  * [ ] Split repository based on the domain (like development lifecycle)
-    * ex: centra-mgt-security, service env, compliance...
+    * ex: central-mgt-security, service env, compliance...
  * [ ] Makefile
  * [ ] Make Modules for common settings (refer to s3, and kms section)
 
@@ -94,9 +94,6 @@ AWS Terraform files used in Secure Brigade
  * [ ] Patch Manager
  * [ ] Session Manager
  * [ ] Difference between Secret Manager
- 
- ## KMS
- * [ ] digital signature
  
  ## Response 
  * [ ] [diffy](https://medium.com/netflix-techblog/netflix-sirt-releases-diffy-a-differencing-engine-for-digital-forensics-in-the-cloud-37b71abd2698)

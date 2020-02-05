@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "config-recorder" {
   statement {
-    sid    = "AWSConfigBucketInfoReading"
+    sid    = "AWSConfigBucketPermissionAndExistenceCheck"
     effect = "Allow"
 
     principals {

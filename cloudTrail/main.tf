@@ -26,10 +26,10 @@ resource "aws_cloudwatch_log_group" "cloudtrail" {
   retention_in_days = 7
 
   tags = {
-    Name   = "CloudTrailLogs"
-    Env    = "master"
-    Source = "CloudTrail"
+    name   = "CloudTrailLogs"
+    env    = "master"
     jobs   = "log-analysis"
+    source = "cloudtrail"
   }
 }
 
@@ -92,9 +92,9 @@ resource "aws_kms_key" "cloudtrail" {
 }
 EOF
   tags = {
-    Name = "KeyForCloudTrailLogEncryption"
-    Env  = "master"
-    jobs = "Audit"
+    name = "KeyForCloudTrailLogEncryption"
+    env  = "master"
+    jobs = "audit"
   }
 }
 

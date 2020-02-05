@@ -3,7 +3,7 @@
 // ---------------------------------------
 resource "aws_s3_bucket" "cloudtrail" {
   provider = aws.compliance
-  bucket   = "cloudtail"
+  bucket   = "secure-brigade-cloudtrail-log"
 
   versioning {
     enabled = true
@@ -69,46 +69,14 @@ resource "aws_s3_bucket" "cloudtrail" {
   //    }
   //  }
 
-  tags = {
-    Name   = "cloudtail-bucket"
-    Env    = "compliance"
-    Source = "CloudTrail"
-    Jobs   = "audit-trail"
-  }
+  policy = data.aws_iam_policy_document.cloudtrail-log-bucket.json
 
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::cloudtail"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": [
-                "arn:aws:s3:::cloudtail/AWSLogs/${lookup(var.accounts, "master")}/*",
-                "arn:aws:s3:::cloudtail/AWSLogs/${data.aws_organizations_organization.this.id}/*"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
+  tags = {
+    name   = "cloudtrail-log-bucket"
+    env    = "compliance"
+    source = "cloudtrail"
+    jobs   = "audit"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "block-cloudtrail-logging" {
@@ -181,10 +149,10 @@ resource "aws_s3_bucket" "cloudtrail-replication" {
   }
 
   tags = {
-    name   = "cloudtail-bucket"
+    name   = "cloudtail-replication-bucket"
     env    = "logging"
-    source = "CloudTrail in compliance account"
-    jobs   = "audit-trail"
+    source = "cloudtrail-log-bucket"
+    role   = "log-analysis"
   }
 }
 

@@ -21,7 +21,7 @@ module "consle-signin-without-mfa-detection" {
   source                     = "./modules/cisAlarms"
   cis-name                   = "AWS-CIS-3.2-ConsoleSignInWithoutMFA"
   cloudwatch-log-group-name  = aws_cloudwatch_log_group.cloudtrail.name
-  pattern                    = "{($.eventName=\"ConsoleLogin\") && ($.additionalEventData.MFAUsed !=\"Yes\")}"
+  pattern                    = "{($.eventName=\"ConsoleLogin\") && ($.additionalEventData.MFAUsed !=\"Yes\") && ($.additionalEventData.SamlProviderArn NOT EXISTS)}"
   sns-topic-alarm-action-arn = aws_sns_topic.aws-cis-benchmark.arn
   sns-topic-ok-action-arn    = aws_sns_topic.aws-cis-benchmark.arn
 }

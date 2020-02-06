@@ -17,6 +17,9 @@ module "unauthorized-api-usage-detection" {
   sns-topic-ok-action-arn    = aws_sns_topic.aws-cis-benchmark.arn
 }
 
+// this checks SamlProviderArn assuming IdP is already enforced MFA setting
+// Default AWS-CIS-3.2-ConsoleSignInWithoutMFA measure needs to be disabled in AWS Security Hub/Config
+// because this setting won't be recognized as compliant metric
 module "consle-signin-without-mfa-detection" {
   source                     = "./modules/cisAlarms"
   cis-name                   = "AWS-CIS-3.2-ConsoleSignInWithoutMFA"

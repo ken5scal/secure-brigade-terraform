@@ -16,20 +16,6 @@ module "password-policy-compliance" {
   source = "./modules/iam-user-password-policy"
 }
 
-module "password-policy-sandbox" {
-  providers = {
-    aws = aws.sandbox
-  }
-  source = "./modules/iam-user-password-policy"
-}
-
-module "password-policy-logging" {
-  providers = {
-    aws = aws.logging
-  }
-  source = "./modules/iam-user-password-policy"
-}
-
 module "password-policy-stg" {
   providers = {
     aws = aws.stg

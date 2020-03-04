@@ -92,22 +92,6 @@ module "iam-config-mgt-compliance" {
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
-module "iam-config-mgt-sandbox" {
-  providers = {
-    aws = aws.sandbox
-  }
-  source                     = "./modules/aws-config"
-  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
-}
-
-module "iam-config-mgt-logging" {
-  providers = {
-    aws = aws.logging
-  }
-  source                     = "./modules/aws-config"
-  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
-}
-
 module "iam-config-mgt-stg" {
   providers = {
     aws = aws.stg

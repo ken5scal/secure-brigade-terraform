@@ -12,11 +12,6 @@ resource "aws_organizations_account" "compliance" {
   name  = "secure-brigade-compliance"
 }
 
-resource "aws_organizations_account" "logging" {
-  email = "kengoscal+aws-logging@gmail.com"
-  name  = "secure-brigade-logging"
-}
-
 resource "aws_organizations_account" "shared-resources" {
   email = "kengoscal+aws-shared-resources@gmail.com"
   name  = "secure-brigade-shared-resources"
@@ -31,9 +26,3 @@ resource "aws_organizations_account" "stg" {
   email = "kengoscal+aws-stg@gmail.com"
   name  = "secure-brigade-stg"
 }
-
-resource "aws_organizations_account" "sandbox" {
-  email = "kengoscal+aws-sandbox@gmail.com"
-  name  = "secure-brigade-sandbox"
-}
-

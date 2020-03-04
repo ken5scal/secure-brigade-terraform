@@ -11,13 +11,3 @@ provider "aws" {
     session_name = "terraform-operation"
   }
 }
-
-provider "aws" {
-  alias  = "logging"
-  region = "ap-northeast-1"
-
-  assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "logging")}:role/TerraformAdministrativeRole"
-    session_name = "terraform-operation"
-  }
-}

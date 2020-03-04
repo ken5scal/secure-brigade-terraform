@@ -14,26 +14,6 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias  = "sandbox"
-  region = var.region
-
-  assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "sandbox")}:role/TerraformAdministrativeRole"
-    session_name = "terraform-operation"
-  }
-}
-
-provider "aws" {
-  alias  = "logging"
-  region = var.region
-
-  assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "logging")}:role/TerraformAdministrativeRole"
-    session_name = "terraform-operation"
-  }
-}
-
-provider "aws" {
   alias  = "stg"
   region = var.region
 

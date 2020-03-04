@@ -10,30 +10,6 @@ module "terraform-administrator-in-compliance" {
   iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
-module "terraform-administrator-in-sandbox" {
-  providers = {
-    aws = aws.sandbox
-  }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
-  jobs                     = "administration"
-  env                      = "sandbox"
-  aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
-}
-
-module "terraform-administrator-in-logging" {
-  providers = {
-    aws = aws.logging
-  }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
-  jobs                     = "administration"
-  env                      = "logging"
-  aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
-}
-
 module "terraform-administrator-in-stg" {
   providers = {
     aws = aws.stg

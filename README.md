@@ -9,6 +9,10 @@ AWS Terraform files used in Secure Brigade
  * Terraform Backend S3 & its KMS key
 
 # TODO
+## priority
+* [ ] vpc flowlog
+* [ ] cloudtrail to azure sentinel
+
 ## In General
  * [ ] Fix warnings raised by AWS Configs in ap-northeast-1
  * [x] ~Fix warnings raised by AWS Configs in all regions~ Everything is aggregated in ap-northeast-1 of master account
@@ -24,8 +28,8 @@ AWS Terraform files used in Secure Brigade
     * The above script misses enabling aws config in some aws accounts and region 
  * [x] [SecurityHub](https://github.com/awslabs/aws-securityhub-multiaccount-scripts) 
  * [x] Trusted Advisor
+ * [ ] Flow Log
  * [ ] Inspector
- * [ ] Flowlog
 
 ## Organization
  * [ ] AWS Health
@@ -34,7 +38,7 @@ AWS Terraform files used in Secure Brigade
 
 ## Cloud Trail
  * [ ] Enable CloudTail Insights w/ [PR](https://github.com/terraform-providers/terraform-provider-aws/issues/10988)
- * [ ] Fix S3 replication settings from cloudtrail bucket in compliance account
+ * [x] ~Fix S3 replication settings from cloudtrail bucket in compliance account~ <- removed from backlog.
  
 ## Config
  * [x] Aggregate all ConfigHistory/ConfigSnapshot S3 bucket to shared-resources account (set lifecycle)
@@ -51,7 +55,7 @@ AWS Terraform files used in Secure Brigade
  * [ ] Change SSO policies so that AdministrativeAccount won't be able to modify billing settings
  * [x] Set Alarm/Log for root account usage (based on CIS Benchmark) 
  * [x] Set IAM password Policies
- * [ ] [How to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
+ * [x] [How to use service control policies to set permission guardrails across accounts in your AWS Organization](https://aws.amazon.com/jp/blogs/security/how-to-use-service-control-policies-to-set-permission-guardrails-across-accounts-in-your-aws-organization/)
  * [x] Set up iam role so that terraform operation can assume role in cross account environment
  * [ ] IAM to prohibit EC2 instances only use IMDSv2
  * [ ] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
@@ -59,7 +63,7 @@ AWS Terraform files used in Secure Brigade
  * [ ] [tag policies](https://aws.amazon.com/jp/blogs/aws/new-use-tag-policies-to-manage-tags-across-multiple-aws-accounts/)
  * [ ] rds with iam
  * [ ] [Netflix's credential compromise detection](https://medium.com/netflix-techblog/netflix-cloud-security-detecting-credential-compromise-in-aws-9493d6fd373a)
- * [ ] IAM Permission boundary
+ * [x] ~IAM Permission boundary~ <- tried, but couldn't come out of the good use cases.
  * [ ] alb oidc
  * [ ] https://aws.amazon.com/jp/blogs/security/iam-share-aws-resources-groups-aws-accounts-aws-organizations/
  * [ ] [Access Analyze](https://aws.amazon.com/jp/blogs/aws/identify-unintended-resource-access-with-aws-identity-and-access-management-iam-access-analyzer/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=Global&sc_outcome=awareness&trkCampaign=CSI_Q4_2019_Storage_S3_re:Invent-S3-Bucket-Protection-Access-Analyzer_&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78103269)
@@ -76,19 +80,6 @@ AWS Terraform files used in Secure Brigade
  
  ## API Gateway
  * [ ] [JWT Authorizers](https://dev.classmethod.jp/cloud/aws/amazon-api-gateway-jwt-authorizers/?fbclid=IwAR1fB8FChn5Cc8xkYSkhtAnshwmbfW1yF81nQU8yZUFDEB8u3F2bPZBjDig)
- * [ ] Set up iam role so that terraform operation can assume role in cross account environment
- * [ ] IAM to prohibit EC2 instances only use IMDSv2
- * [ ] [ABAC Configs using AWS SSO & Session tags](https://aws.amazon.com/jp/blogs/aws/new-for-identity-federation-use-employee-attributes-for-access-control-in-aws/)
- * [ ] [tag sessions](https://aws.amazon.com/jp/blogs/security/rely-employee-attributes-from-corporate-directory-create-fine-grained-permissions-aws/)
- * [ ] [tag policies](https://aws.amazon.com/jp/blogs/aws/new-use-tag-policies-to-manage-tags-across-multiple-aws-accounts/)
- * [ ] rds with iam
- * [ ] [Netflix's credential compromise detection](https://medium.com/netflix-techblog/netflix-cloud-security-detecting-credential-compromise-in-aws-9493d6fd373a)
- * [ ] IAM Permission boundary
- * [ ] alb oidc
- * [ ] https://aws.amazon.com/jp/blogs/security/iam-share-aws-resources-groups-aws-accounts-aws-organizations/
- * [ ] [Access Analyze](https://aws.amazon.com/jp/blogs/aws/identify-unintended-resource-access-with-aws-identity-and-access-management-iam-access-analyzer/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=Global&sc_outcome=awareness&trkCampaign=CSI_Q4_2019_Storage_S3_re:Invent-S3-Bucket-Protection-Access-Analyzer_&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78103269)
- * [ ] [S3 Access Points](https://aws.amazon.com/jp/blogs/aws/easily-manage-shared-data-sets-with-amazon-s3-access-points/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=re:Invent&sc_outcome=awareness&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78154390)
- * [ ] [Monitor unused IAM roles with AWS Config](https://t.co/CP2z75ahFK?amp=1)
  
  ## SSM
  * [ ] Patch Manager

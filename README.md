@@ -12,6 +12,7 @@ AWS Terraform files used in Secure Brigade
 ## priority
 * [ ] vpc flowlog
 * [ ] cloudtrail to azure sentinel
+* [ ] github action as CI and codepipeline as CD
 
 ## In General
  * [ ] Fix warnings raised by AWS Configs in ap-northeast-1

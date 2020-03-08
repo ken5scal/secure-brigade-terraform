@@ -1,3 +1,8 @@
+resource "aws_organizations_policy_attachment" "root" {
+  policy_id = aws_organizations_policy.deny-deleting-security-and-audit-settings.id
+  target_id = aws_organizations_organization.org.roots.0.id
+}
+
 resource "aws_organizations_policy" "deny-deleting-security-and-audit-settings" {
   name        = "DenyDeletingSecurityAndAuditSettings"
   description = "Deny Removing/Deleting/Disabling AWS Security And Audit Settings"
@@ -32,9 +37,4 @@ resource "aws_organizations_policy" "deny-deleting-security-and-audit-settings" 
     ]
 }
 CONTENT
-}
-
-resource "aws_organizations_policy_attachment" "root" {
-  policy_id = aws_organizations_policy.deny-deleting-security-and-audit-settings.id
-  target_id = aws_organizations_organization.org.roots.0.id
 }

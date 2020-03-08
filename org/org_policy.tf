@@ -1,6 +1,7 @@
 resource "aws_organizations_policy" "deny-deleting-security-and-audit-settings" {
-  name    = "DenyDeletingSecurityAndAuditSettings"
-  content = <<CONTENT
+  name        = "DenyDeletingSecurityAndAuditSettings"
+  description = "Deny Removing/Deleting/Disabling AWS Security And Audit Settings"
+  content     = <<CONTENT
 {
     "Version": "2012-10-17",
     "Statement": [

@@ -2,6 +2,10 @@ data "aws_organizations_organization" "this" {}
 data "aws_caller_identity" "this" {}
 data "aws_region" "this" {}
 
+data "aws_iam_policy" "administrator-access" {
+  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
 data "aws_iam_policy_document" "cloudtrail-log-bucket" {
   statement {
     sid    = "AWSCloudTrailAclAndBucketCheck"

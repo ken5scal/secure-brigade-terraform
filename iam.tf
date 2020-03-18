@@ -46,6 +46,43 @@ module "terraform-administrator-in-security" {
   iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
-data "aws_iam_policy" "administrator-access" {
-  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+resource "aws_iam_role" "cloudtrail-servie" {
+  name               = "SecureBrigadeCloudTrailServiceRole"
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "cloudtrail.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "cloudtrail-to-cw-log" {
+  role   = aws_iam_role.cloudtrail-servie.name
+  name   = "SendCloudTrailLogToCloudWatchLogPolicy"
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:log-group:CloudTrailLogs:log-stream:*"
+            ]
+        }
+    ]
+}
+POLICY
 }

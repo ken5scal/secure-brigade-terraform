@@ -6,9 +6,9 @@
 
 // Centrailized AWS Config recorder bucket
 resource "aws_s3_bucket" "config-bucket" {
-  provider = aws.shared-resources
+  provider = aws.compliance
   region   = var.region
-  bucket   = "aws-config-bucket-for-secure-brigade"
+  bucket   = "secure-brigade-aws-config-bucket"
 
   versioning {
     enabled = true
@@ -43,14 +43,14 @@ resource "aws_s3_bucket" "config-bucket" {
 
   tags = {
     name   = "aws-config-bucket"
-    env    = "shared-resources"
+    env    = "compliance"
     source = "AWS Config"
     jobs   = "config-mgt"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "config-bucket" {
-  provider                = aws.shared-resources
+  provider                = aws.compliance
   bucket                  = aws_s3_bucket.config-bucket.id
   block_public_acls       = true
   block_public_policy     = true
@@ -59,19 +59,19 @@ resource "aws_s3_bucket_public_access_block" "config-bucket" {
 }
 
 resource "aws_kms_key" "config-bucket" {
-  provider            = aws.shared-resources
+  provider            = aws.compliance
   description         = "key to encrypt/decrypt s3 storing AWS Configs"
   enable_key_rotation = true
 }
 
 resource "aws_kms_alias" "config-bucket" {
-  provider      = aws.shared-resources
+  provider      = aws.compliance
   name          = "alias/config-bucket-key"
   target_key_id = aws_kms_key.config-bucket.key_id
 }
 
 resource "aws_s3_bucket_policy" "config-bucket" {
-  provider = aws.shared-resources
+  provider = aws.compliance
   bucket   = aws_s3_bucket.config-bucket.id
   policy   = data.aws_iam_policy_document.config-recorder.json
 }

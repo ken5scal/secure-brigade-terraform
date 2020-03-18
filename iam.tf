@@ -35,6 +35,9 @@ module "terraform-administrator-in-prod" {
 }
 
 module "terraform-administrator-in-shared-resources" {
+  providers = {
+    aws = aws.shared-resources
+  }
   source                   = "./modules/terraform-iam"
   role-name                = "TerraformAdministrativeRole"
   jobs                     = "administration"

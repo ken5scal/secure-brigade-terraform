@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "ap-northeast-1"
-}
-
 resource "aws_organizations_organization" "org" {
   aws_service_access_principals = [
     "cloudtrail.amazonaws.com",

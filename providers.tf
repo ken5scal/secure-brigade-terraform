@@ -1,5 +1,4 @@
 provider "aws" {
-  alias  = "master"
   region = var.region
 }
 
@@ -34,6 +33,7 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias  = "shared-resources"
   region = var.region
 
   assume_role {

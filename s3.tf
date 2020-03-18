@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform-backend" {
-  bucket = "terraform-backend-secure-brigade"
+  bucket = "secure-brigade-terraform-backend"
   region = var.region
 
   versioning {

@@ -25,11 +25,6 @@ resource "aws_organizations_account" "compliance" {
   name  = "secure-brigade-compliance"
 }
 
-resource "aws_organizations_account" "shared-resources" {
-  email = "kengoscal+aws-shared-resources@gmail.com"
-  name  = "secure-brigade-shared-resources"
-}
-
 resource "aws_organizations_account" "prod" {
   email = "kengoscal+aws-prod@gmail.com"
   name  = "secure-brigade-prod"

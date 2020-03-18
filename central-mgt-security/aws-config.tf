@@ -108,14 +108,6 @@ module "iam-config-mgt-prod" {
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }
 
-module "iam-config-mgt-shared-resources" {
-  providers = {
-    aws = aws.shared-resources
-  }
-  source                     = "./modules/aws-config"
-  config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
-}
-
 module "iam-config-mgt-security" {
   source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn

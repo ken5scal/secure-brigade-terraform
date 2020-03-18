@@ -33,16 +33,6 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias  = "shared-resources"
-  region = var.region
-
-  assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "shared-resources")}:role/TerraformAdministrativeRole"
-    session_name = "terraform-operation"
-  }
-}
-
-provider "aws" {
   alias  = "security"
   region = var.region
 

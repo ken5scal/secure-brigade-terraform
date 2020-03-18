@@ -29,10 +29,3 @@ module "password-policy-prod" {
   }
   source = "./modules/iam-user-password-policy"
 }
-
-module "password-policy-shared-resources" {
-  providers = {
-    aws = aws.shared-resources
-  }
-  source = "./modules/iam-user-password-policy"
-}

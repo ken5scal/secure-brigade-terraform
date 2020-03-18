@@ -34,18 +34,6 @@ module "terraform-administrator-in-prod" {
   iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
-module "terraform-administrator-in-shared-resources" {
-  providers = {
-    aws = aws.shared-resources
-  }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
-  jobs                     = "administration"
-  env                      = "shared-resources"
-  aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
-}
-
 module "terraform-administrator-in-security" {
   providers = {
     aws = aws.security

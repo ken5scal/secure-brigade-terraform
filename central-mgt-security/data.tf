@@ -28,7 +28,6 @@ data "aws_iam_policy_document" "config-recorder" {
         module.iam-config-mgt-compliance.iam-arn,
         module.iam-config-mgt-stg.iam-arn,
         module.iam-config-mgt-prod.iam-arn,
-        module.iam-config-mgt-shared-resources.iam-arn,
         module.iam-config-mgt-security.iam-arn
       ]
     }
@@ -54,7 +53,6 @@ data "aws_iam_policy_document" "config-recorder" {
         module.iam-config-mgt-compliance.iam-arn,
         module.iam-config-mgt-stg.iam-arn,
         module.iam-config-mgt-prod.iam-arn,
-        module.iam-config-mgt-shared-resources.iam-arn,
         module.iam-config-mgt-security.iam-arn
       ]
     }
@@ -68,7 +66,6 @@ data "aws_iam_policy_document" "config-recorder" {
       "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "compliance")}/Config/*",
       "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "stg")}/Config/*",
       "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "prod")}/Config/*",
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "shared-resources")}/Config/*",
       "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "security")}/Config/*"
     ]
 

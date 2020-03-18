@@ -86,3 +86,35 @@ resource "aws_iam_role_policy" "cloudtrail-to-cw-log" {
 }
 POLICY
 }
+
+module "password-policy-master" {
+  source = "./modules/iam-user-password-policy"
+}
+
+module "password-policy-security" {
+  providers = {
+    aws = aws.security
+  }
+  source = "./modules/iam-user-password-policy"
+}
+
+module "password-policy-compliance" {
+  providers = {
+    aws = aws.compliance
+  }
+  source = "./modules/iam-user-password-policy"
+}
+
+module "password-policy-stg" {
+  providers = {
+    aws = aws.stg
+  }
+  source = "./modules/iam-user-password-policy"
+}
+
+module "password-policy-prod" {
+  providers = {
+    aws = aws.prod
+  }
+  source = "./modules/iam-user-password-policy"
+}

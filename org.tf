@@ -4,7 +4,8 @@ resource "aws_organizations_organization" "org" {
     "config.amazonaws.com",
     "sso.amazonaws.com",
     "ssm.amazonaws.com",
-    "tagpolicies.tag.amazonaws.com"
+    "tagpolicies.tag.amazonaws.com",
+    "access-analyzer.amazonaws.com"
   ]
 
   enabled_policy_types = [

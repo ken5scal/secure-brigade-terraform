@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "terraform-role" {
   name               = var.role-name
   assume_role_policy = <<POLICY
@@ -8,7 +7,7 @@ resource "aws_iam_role" "terraform-role" {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-        "AWS": "arn:aws:iam::${var.aws-account-assumed-from}:root"
+        "AWS": ["arn:aws:iam::${var.aws-account-assumed-from}:root","arn:aws:iam::085773780922:root"]
       },
       "Effect": "Allow",
       "Sid": ""

@@ -14,6 +14,7 @@ resource "aws_organizations_policy" "deny-deleting-security-and-audit-settings" 
             "Sid": "DenyDeletingSecurityAndAuditSettings",
             "Effect": "Deny",
             "Action": [
+                "organizations:LeaveOrganization",
                 "guardduty:Delete*",
                 "guardduty:DisassociateFromMasterAccount",
                 "guardduty:UntagResource",
@@ -22,6 +23,7 @@ resource "aws_organizations_policy" "deny-deleting-security-and-audit-settings" 
                 "cloudtrail:DeleteTrail",
                 "cloudtrail:RemoveTags",
                 "cloudtrail:StopLogging",
+                "cloudtrail:UpdateTrail",
                 "securityhub:DeclineInvitations",
                 "securityhub:Delete*",
                 "securityhub:Disassociate*",

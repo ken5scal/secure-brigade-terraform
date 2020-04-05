@@ -71,6 +71,15 @@ resource "aws_iam_role_policy_attachment" "azure-sentinel" {
 // -------------------------------------
 // Terraform Role in each AWS account
 // -------------------------------------
+module "terraform-administrator-in-master" {
+  source                   = "./modules/terraform-iam"
+  role-name                = "TerraformAdministrativeRole"
+  jobs                     = "administration"
+  env                      = "master"
+  aws-account-assumed-from = lookup(var.accounts, "security")
+  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
+}
+
 module "terraform-administrator-in-compliance" {
   providers = {
     aws = aws.compliance

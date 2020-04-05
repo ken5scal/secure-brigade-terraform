@@ -162,3 +162,45 @@ module "password-policy-prod" {
   }
   source = "./modules/iam-user-password-policy"
 }
+
+// --------------------
+// AWS Incident Management Role with AWS Support
+// probably just disable the benchmark
+// https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.20
+// --------------------
+module "incident-manage-role-master" {
+  source     = "./modules/support-roles"
+  account-id = lookup(var.accounts, "master")
+}
+
+module "incident-manage-role-security" {
+  providers = {
+    aws = aws.security
+  }
+  source     = "./modules/support-roles"
+  account-id = lookup(var.accounts, "security")
+}
+
+module "incident-manage-role-compliance" {
+  providers = {
+    aws = aws.compliance
+  }
+  source     = "./modules/support-roles"
+  account-id = lookup(var.accounts, "compliance")
+}
+
+module "incident-manage-role-stg" {
+  providers = {
+    aws = aws.stg
+  }
+  source     = "./modules/support-roles"
+  account-id = lookup(var.accounts, "stg")
+}
+
+module "incident-manage-role-prod" {
+  providers = {
+    aws = aws.prod
+  }
+  source     = "./modules/support-roles"
+  account-id = lookup(var.accounts, "prod")
+}

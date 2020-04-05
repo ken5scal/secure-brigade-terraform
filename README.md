@@ -29,7 +29,7 @@ AWS Terraform files used in Secure Brigade
     * The above script misses enabling aws config in some aws accounts and region 
  * [x] [SecurityHub](https://github.com/awslabs/aws-securityhub-multiaccount-scripts) 
  * [x] Trusted Advisor
- * [ ] Flow Log
+ * [ ] Flow Log <- requires some effort. Flow log itself does not support cross-account logging and s3 storing
  * [ ] Inspector
 
 ## Organization

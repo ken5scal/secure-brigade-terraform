@@ -1,4 +1,5 @@
 // ensure the default sg of every VPC restricts all traffic
+// AWS CIS 4.3
 resource "aws_security_group" "default-master" {
   name        = "default"
   description = "default VPC security group"

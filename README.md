@@ -11,7 +11,7 @@ AWS Terraform files used in Secure Brigade
 # TODO
 ## priority
 * [ ] vpc flowlog
-* [ ] cloudtrail to azure sentinel
+* [x] cloudtrail to azure sentinel
 * [ ] github action as CI and codepipeline as CD
 
 ## In General
@@ -34,7 +34,7 @@ AWS Terraform files used in Secure Brigade
 
 ## Organization
  * [ ] AWS Health
- * [ ] Disable `IAM User and Role Access to Billing Information` in child accounts
+ * [x] ~Disable `IAM User and Role Access to Billing Information` in child accounts~ <- not required because organization handles it automatically
  * [ ] Other settings (listed in IAM section)
 
 ## Cloud Trail
@@ -67,7 +67,7 @@ AWS Terraform files used in Secure Brigade
  * [x] ~IAM Permission boundary~ <- tried, but couldn't come out of the good use cases.
  * [ ] alb oidc
  * [ ] https://aws.amazon.com/jp/blogs/security/iam-share-aws-resources-groups-aws-accounts-aws-organizations/
- * [ ] [Access Analyze](https://aws.amazon.com/jp/blogs/aws/identify-unintended-resource-access-with-aws-identity-and-access-management-iam-access-analyzer/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=Global&sc_outcome=awareness&trkCampaign=CSI_Q4_2019_Storage_S3_re:Invent-S3-Bucket-Protection-Access-Analyzer_&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78103269)
+ * [x] [Access Analyze](https://aws.amazon.com/jp/blogs/aws/identify-unintended-resource-access-with-aws-identity-and-access-management-iam-access-analyzer/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=Global&sc_outcome=awareness&trkCampaign=CSI_Q4_2019_Storage_S3_re:Invent-S3-Bucket-Protection-Access-Analyzer_&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78103269)
  * [ ] [S3 Access Points](https://aws.amazon.com/jp/blogs/aws/easily-manage-shared-data-sets-with-amazon-s3-access-points/?sc_channel=sm&sc_campaign=launch_reInvent&sc_publisher=TWITTER&sc_country=re:Invent&sc_outcome=awareness&trk=AWS_reInvent_2019_launch__TWITTER&sc_content=AWS_reInvent_2019_launch_&linkId=78154390)
  * [ ] [Monitor unused IAM roles with AWS Config](https://t.co/CP2z75ahFK?amp=1)
 

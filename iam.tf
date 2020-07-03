@@ -76,7 +76,7 @@ module "terraform-administrator-in-master" {
   role-name                = "TerraformAdministrativeRole"
   jobs                     = "administration"
   env                      = "master"
-  aws-account-assumed-from = lookup(var.accounts, "security")
+  aws-account-assumed-from = lookup(var.accounts, "master")
   iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 

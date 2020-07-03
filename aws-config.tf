@@ -106,6 +106,9 @@ module "iam-config-mgt-prod" {
 }
 
 module "iam-config-mgt-security" {
+  providers = {
+    aws = aws.security
+  }
   source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }

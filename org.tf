@@ -5,7 +5,10 @@ resource "aws_organizations_organization" "org" {
     "sso.amazonaws.com",
     "ssm.amazonaws.com",
     "tagpolicies.tag.amazonaws.com",
-    "access-analyzer.amazonaws.com"
+    "access-analyzer.amazonaws.com",
+    "guardduty.amazonaws.com",
+    "aws-artifact-account-sync.amazonaws.com",
+    "fms.amazonaws.com"
   ]
 
   enabled_policy_types = [

@@ -4,10 +4,19 @@ on:
   push:
     branches-ignore:
       - master
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        default: 'warning'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_TerraformAssumeRoleName: TerraformAdministrativeRole
     steps:
       - name: checkout
         uses: actions/checkout@v2

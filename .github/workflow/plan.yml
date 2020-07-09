@@ -2,6 +2,7 @@ name: terraform plan
 
 on:
   pull_request:
+  push:
 
 jobs:
   terraform:

@@ -1,0 +1,23 @@
+name: run linter
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform fmt
+        run: terraform fmt -check
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v2.0.0
+        env:
+          VALIDATE_ALL_CODEBASE: false

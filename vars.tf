@@ -1,6 +1,4 @@
-variable "TerraformAssumeRoleName" {
-  default = "TerraformAdministrativeRole"
-}
+variable "TerraformAssumeRoleName" {}
 variable "accounts" {
   default = {
     master     = "791325445011"

@@ -2,6 +2,8 @@ name: terraform plan
 
 on:
   push:
+    - master
+  pull_request:
   workflow_dispatch:
     inputs:
       logLevel:
@@ -9,7 +11,8 @@ on:
         default: 'warning'
 
 jobs:
-  terraform:
+  terraform plan as pr:
+    if: github.event_name == 'pull_request'
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
     env:
@@ -32,7 +35,6 @@ jobs:
         run: terraform plan -no-color
       - name: Comment on PR
         uses: actions/github-script@v1
-        if: github.event_name == 'pull_request'
         env:
           STDOUT: "```terraform\n${{ steps.plan.outputs.stdout }}```"
           STDERR: "```terraform\n${{ steps.plan.outputs.stderr }}```"

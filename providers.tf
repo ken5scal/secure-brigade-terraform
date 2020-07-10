@@ -1,5 +1,10 @@
 provider "aws" {
   region = var.region
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "master")}:role/${var.TerraformAssumeRoleName}"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {
@@ -7,7 +12,7 @@ provider "aws" {
   region = var.region
 
   assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "compliance")}:role/TerraformAdministrativeRole"
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "compliance")}:role/${var.TerraformAssumeRoleName}"
     session_name = "terraform-operation"
   }
 }
@@ -17,7 +22,7 @@ provider "aws" {
   region = var.region
 
   assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "stg")}:role/TerraformAdministrativeRole"
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "stg")}:role/${var.TerraformAssumeRoleName}"
     session_name = "terraform-operation"
   }
 }
@@ -27,7 +32,7 @@ provider "aws" {
   region = var.region
 
   assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "prod")}:role/TerraformAdministrativeRole"
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "prod")}:role/${var.TerraformAssumeRoleName}"
     session_name = "terraform-operation"
   }
 }
@@ -37,7 +42,7 @@ provider "aws" {
   region = var.region
 
   assume_role {
-    role_arn     = "arn:aws:iam::${lookup(var.accounts, "security")}:role/TerraformAdministrativeRole"
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "security")}:role/${var.TerraformAssumeRoleName}"
     session_name = "terraform-operation"
   }
 }

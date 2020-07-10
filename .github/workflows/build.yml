@@ -2,7 +2,6 @@ name: terraform plan
 
 on:
   push:
-    - master
   pull_request:
   workflow_dispatch:
     inputs:

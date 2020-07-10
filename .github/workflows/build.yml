@@ -2,7 +2,6 @@ name: terraform plan
 
 on:
   push:
-    - master
   pull_request:
   workflow_dispatch:
     inputs:
@@ -11,8 +10,7 @@ on:
         default: 'warning'
 
 jobs:
-  terraform plan as pr:
-    if: github.event_name == 'pull_request'
+  terraform plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
     env:

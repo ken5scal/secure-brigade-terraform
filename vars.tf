@@ -1,4 +1,6 @@
-// Defined in ../global.tfvars
+variable "TerraformAssumeRoleName" {
+  default = "TerraformAdministrativeRole"
+}
 variable "accounts" {
   default = {
     master     = "791325445011"

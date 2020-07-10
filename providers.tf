@@ -1,5 +1,10 @@
 provider "aws" {
   region = var.region
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${lookup(var.accounts, "master")}:role/infra-build-role"
+    session_name = "terraform-operation"
+  }
 }
 
 provider "aws" {

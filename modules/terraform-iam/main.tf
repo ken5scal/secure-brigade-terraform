@@ -1,31 +1,29 @@
-resource "aws_iam_role" "terraform-role" {
-  name               = var.role-name
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "AWS": ["arn:aws:iam::${var.aws-account-assumed-from}:root"]
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-POLICY
+resource "aws_iam_role" "apply" {
+  name               = "terraform-apply-role"
+  assume_role_policy = data.aws_iam_policy_document.sts.json
 
   tags = {
-    name = var.role-name
     env  = var.env
     jobs = var.jobs
   }
 }
 
-resource "aws_iam_role_policy" "terraform-role" {
-  role   = aws_iam_role.terraform-role.id
-  policy = <<EOF
-${var.iam-policy-document}
-EOF
+resource "aws_iam_role_policy_attachment" "apply" {
+  role       = aws_iam_role.apply.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+resource "aws_iam_role" "read-only" {
+  name               = "terraform-read-only-role"
+  assume_role_policy = data.aws_iam_policy_document.sts.json
+
+  tags = {
+    env  = var.env
+    jobs = var.jobs
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "read-only" {
+  role       = aws_iam_role.read-only.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }

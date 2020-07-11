@@ -72,60 +72,109 @@ resource "aws_iam_role_policy_attachment" "azure-sentinel" {
 // Terraform Role in each AWS account
 // -------------------------------------
 module "terraform-administrator-in-master" {
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
+  source = "./modules/terraform-iam"
+
   jobs                     = "administration"
   env                      = "master"
   aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
+}
+
+resource "aws_iam_policy" "use-kms-to-manage-terraform-state-bucket" {
+  name   = "use-terraform-backend-kms-key-policy"
+  policy = data.aws_iam_policy_document.use-kms-terraform-backend-key.json
+}
+
+resource "aws_iam_role_policy_attachment" "terraform-in-master" {
+  role       = module.terraform-administrator-in-master.read-only-role-name
+  policy_arn = aws_iam_policy.use-kms-to-manage-terraform-state-bucket.arn
 }
 
 module "terraform-administrator-in-compliance" {
   providers = {
     aws = aws.compliance
   }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
+  source = "./modules/terraform-iam"
+
   jobs                     = "administration"
   env                      = "compliance"
   aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
 module "terraform-administrator-in-stg" {
   providers = {
     aws = aws.stg
   }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
+  source = "./modules/terraform-iam"
+
   jobs                     = "administration"
   env                      = "stg"
   aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
 module "terraform-administrator-in-prod" {
   providers = {
     aws = aws.prod
   }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
+  source = "./modules/terraform-iam"
+
   jobs                     = "administration"
   env                      = "prod"
   aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
 }
 
 module "terraform-administrator-in-security" {
   providers = {
     aws = aws.security
   }
-  source                   = "./modules/terraform-iam"
-  role-name                = "TerraformAdministrativeRole"
+  source = "./modules/terraform-iam"
+
   jobs                     = "administration"
   env                      = "security"
   aws-account-assumed-from = lookup(var.accounts, "master")
-  iam-policy-document      = data.aws_iam_policy.administrator-access.policy
+}
+
+// -------------------------------------
+// Terraform Role in each AWS account
+// -------------------------------------
+resource "aws_iam_user" "cicd" {
+  name = "infra-cicd-user"
+}
+
+resource "aws_iam_group" "cicd-group" {
+  name = "infra-cicd-group"
+}
+
+resource "aws_iam_policy" "read-terraform-backend-bucket" {
+  name   = "read-terraform-backend-bucket"
+  policy = data.aws_iam_policy_document.read-terraform-state-bucket.json
+}
+
+resource "aws_iam_policy" "assume-to-cicd-role" {
+  name   = "assume-to-infra-build-deploy-policy"
+  policy = data.aws_iam_policy_document.assume-to-infra-build-deploy.json
+}
+
+resource "aws_iam_group_policy_attachment" "read-terraform-backend-bucket" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.read-terraform-backend-bucket.arn
+}
+
+resource "aws_iam_group_policy_attachment" "use-kms-to-manage-terraform-state-bucket" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.use-kms-to-manage-terraform-state-bucket.arn
+}
+
+resource "aws_iam_group_policy_attachment" "assume-to-cicd-role" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.assume-to-cicd-role.arn
+}
+
+resource "aws_iam_group_membership" "cicd-group" {
+  name  = "infra-cicd-group"
+  group = aws_iam_group.cicd-group.name
+  users = [
+    aws_iam_user.cicd.name
+  ]
 }
 
 // --------------------

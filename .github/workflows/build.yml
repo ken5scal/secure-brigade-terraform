@@ -17,7 +17,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
-      TF_VAR_TerraformAssumeRoleName: TerraformAdministrativeRole
+      TF_VAR_TerraformAssumeRoleName: terraform-read-only-role
 
     defaults:
       run:

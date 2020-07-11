@@ -11,11 +11,15 @@ data "aws_iam_policy_document" "cloudtrail-log-bucket" {
     sid    = "AWSCloudTrailAclAndBucketCheck"
     effect = "Allow"
     principals {
-      identifiers = ["cloudtrail.amazonaws.com"]
-      type        = "Service"
+      identifiers = [
+      "cloudtrail.amazonaws.com"]
+      type = "Service"
     }
-    actions   = ["s3:GetBucketAcl", "s3:ListBucket"]
-    resources = ["arn:aws:s3:::secure-brigade-cloudtrail-log"]
+    actions = [
+      "s3:GetBucketAcl",
+    "s3:ListBucket"]
+    resources = [
+    "arn:aws:s3:::secure-brigade-cloudtrail-log"]
   }
 
   statement {
@@ -119,5 +123,19 @@ data "aws_iam_policy_document" "config-recorder" {
         "bucket-owner-full-control"
       ]
     }
+  }
+}
+
+data "aws_iam_policy_document" "use-kms-terraform-backend-key" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey",
+      "kms:Decrypt"
+    ]
+    resources = [
+      aws_kms_key.terraform-backend.arn
+    ]
   }
 }

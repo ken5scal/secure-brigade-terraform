@@ -133,6 +133,50 @@ module "terraform-administrator-in-security" {
   aws-account-assumed-from = lookup(var.accounts, "master")
 }
 
+// -------------------------------------
+// Terraform Role in each AWS account
+// -------------------------------------
+resource "aws_iam_user" "cicd" {
+  name = "infra-cicd-user"
+}
+
+resource "aws_iam_group" "cicd-group" {
+  name = "infra-cicd-group"
+}
+
+resource "aws_iam_policy" "read-terraform-backend-bucket" {
+  name   = "read-terraform-backend-bucket"
+  policy = data.aws_iam_policy_document.read-terraform-state-bucket.json
+}
+
+resource "aws_iam_policy" "assume-to-cicd-role" {
+  name   = "assume-to-infra-build-deploy-policy"
+  policy = data.aws_iam_policy_document.assume-to-infra-build-deploy.json
+}
+
+resource "aws_iam_group_policy_attachment" "read-terraform-backend-bucket" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.read-terraform-backend-bucket.arn
+}
+
+resource "aws_iam_group_policy_attachment" "use-kms-to-manage-terraform-state-bucket" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.use-kms-to-manage-terraform-state-bucket.arn
+}
+
+resource "aws_iam_group_policy_attachment" "assume-to-cicd-role" {
+  group      = aws_iam_group.cicd-group.name
+  policy_arn = aws_iam_policy.assume-to-cicd-role.arn
+}
+
+resource "aws_iam_group_membership" "cicd-group" {
+  name  = "infra-cicd-group"
+  group = aws_iam_group.cicd-group.name
+  users = [
+    aws_iam_user.cicd.name
+  ]
+}
+
 // --------------------
 // Password Policy
 // --------------------

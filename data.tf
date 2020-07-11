@@ -17,7 +17,8 @@ data "aws_iam_policy_document" "cloudtrail-log-bucket" {
     }
     actions = [
       "s3:GetBucketAcl",
-    "s3:ListBucket"]
+      "s3:ListBucket"
+    ]
     resources = [
     "arn:aws:s3:::secure-brigade-cloudtrail-log"]
   }
@@ -136,6 +137,42 @@ data "aws_iam_policy_document" "use-kms-terraform-backend-key" {
     ]
     resources = [
       aws_kms_key.terraform-backend.arn
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "read-terraform-state-bucket" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:Get*",
+      "s3:List*"
+    ]
+    resources = [
+      aws_s3_bucket.terraform-backend.arn,
+      "${aws_s3_bucket.terraform-backend.arn}/*"
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "assume-to-infra-build-deploy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession"
+    ]
+    resources = [
+      module.terraform-administrator-in-master.read-only-role-arn,
+      module.terraform-administrator-in-master.apply-arn,
+      module.terraform-administrator-in-compliance.read-only-role-arn,
+      module.terraform-administrator-in-compliance.apply-arn,
+      module.terraform-administrator-in-security.read-only-role-arn,
+      module.terraform-administrator-in-security.apply-arn,
+      module.terraform-administrator-in-stg.read-only-role-arn,
+      module.terraform-administrator-in-stg.apply-arn,
+      module.terraform-administrator-in-prod.read-only-role-arn,
+      module.terraform-administrator-in-prod.apply-arn,
     ]
   }
 }

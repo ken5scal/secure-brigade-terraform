@@ -2,11 +2,13 @@ resource "aws_organizations_organization" "org" {
   aws_service_access_principals = [
     "cloudtrail.amazonaws.com",
     "config.amazonaws.com",
+    "config-multiaccountsetup.amazonaws.com",
     "sso.amazonaws.com",
     "ssm.amazonaws.com",
     "tagpolicies.tag.amazonaws.com",
     "access-analyzer.amazonaws.com",
     "guardduty.amazonaws.com",
+    "securityhub.amazonaws.com",
     "aws-artifact-account-sync.amazonaws.com",
     "fms.amazonaws.com"
   ]

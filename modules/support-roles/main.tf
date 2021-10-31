@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 // https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cis-controls.html#securityhub-cis-controls-1.20
 resource "aws_iam_role" "aws-incident-manage-role" {
   name               = "AWSIncidentMangeRoleWithAWSSupport"

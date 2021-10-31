@@ -7,7 +7,6 @@
 // Centrailized AWS Config recorder bucket
 resource "aws_s3_bucket" "config-bucket" {
   provider = aws.compliance
-  region   = var.region
   bucket   = "secure-brigade-aws-config-bucket"
 
   versioning {
@@ -110,6 +109,7 @@ module "iam-config-mgt-compliance" {
   providers = {
     aws = aws.compliance
   }
+
   source                     = "./modules/aws-config"
   config-recorder-bucket-arn = aws_s3_bucket.config-bucket.arn
 }

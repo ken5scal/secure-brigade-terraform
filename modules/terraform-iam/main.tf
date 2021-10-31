@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 resource "aws_iam_role" "apply" {
   name               = "terraform-apply-role"
   assume_role_policy = data.aws_iam_policy_document.sts.json

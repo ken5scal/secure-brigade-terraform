@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 resource "aws_iam_account_password_policy" "strict" {
   minimum_password_length        = 15
   require_lowercase_characters   = true

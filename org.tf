@@ -1,4 +1,6 @@
 resource "aws_organizations_organization" "org" {
+  // TODO AWSはOrganizationの設定から下記のサービスを有効化することを推奨していない
+  // Instead, use the other AWS service’s console to enable and disable trusted access with AWS Organizations. This allows the other service to perform any supporting tasks needed to enable or disable access with Organizations.
   aws_service_access_principals = [
     "cloudtrail.amazonaws.com",
     "config.amazonaws.com",
@@ -10,12 +12,25 @@ resource "aws_organizations_organization" "org" {
     "guardduty.amazonaws.com",
     "securityhub.amazonaws.com",
     "aws-artifact-account-sync.amazonaws.com",
-    "fms.amazonaws.com"
+    "fms.amazonaws.com",
+    "macie.amazonaws.com",
+    "backup.amazonaws.com",
+    "license-manager.amazonaws.com",
+    "member.org.stacksets.cloudformation.amazonaws.com",
+    "servicecatalog.amazonaws.com",
+    "account.amazonaws.com",
+    "compute-optimizer.amazonaws.com",
+    "ds.amazonaws.com",
+    "license-management.marketplace.amazonaws.com",
+    "ram.amazonaws.com",
+    "storage-lens.s3.amazonaws.com"
   ]
 
   enabled_policy_types = [
     "SERVICE_CONTROL_POLICY",
-    "TAG_POLICY"
+    "TAG_POLICY",
+    "BACKUP_POLICY",
+    //"AISERVICES_OPT_OUT_POLICY"
   ]
 
   feature_set = "ALL"

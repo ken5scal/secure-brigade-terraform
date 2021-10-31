@@ -1,37 +1,6 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-    }
-  }
-}
-
-data "aws_iam_policy_document" "aws-config-assume-policy" {
-  statement {
-    effect = "Allow"
-    actions = [
-    "sts:AssumeRole"]
-
-    principals {
-      type = "Service"
-      identifiers = [
-      "config.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "transfer-record" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:ListBucket",
-      "s3:PutObject",
-    "s3:PutObjectAcl"]
-    resources = [
-      var.config-recorder-bucket-arn,
-    "${var.config-recorder-bucket-arn}/*"]
-  }
-}
+#resource "aws_iam_service_linked_role" "config_role" {
+#  aws_service_name = "config.amazonaws.com"
+#}
 
 resource "aws_iam_role" "config-mgt" {
   name               = "AWSConfigMgtRole"
@@ -49,7 +18,3 @@ resource "aws_iam_role_policy" "transfer-record" {
   policy = data.aws_iam_policy_document.transfer-record.json
 }
 
-variable "config-recorder-bucket-arn" {}
-output "iam-arn" {
-  value = aws_iam_role.config-mgt.arn
-}

@@ -8,31 +8,35 @@ data "aws_iam_policy" "administrator-access" {
 
 data "aws_iam_policy_document" "cloudtrail-log-bucket" {
   statement {
-    sid    = "AWSCloudTrailAclAndBucketCheck"
-    effect = "Allow"
+    sid       = "AWSCloudTrailAclAndBucketCheck"
+    effect    = "Allow"
     principals {
       identifiers = [
-      "cloudtrail.amazonaws.com"]
-      type = "Service"
+        "cloudtrail.amazonaws.com"
+      ]
+      type        = "Service"
     }
-    actions = [
+    actions   = [
       "s3:GetBucketAcl",
       "s3:ListBucket"
     ]
     resources = [
-    "arn:aws:s3:::secure-brigade-cloudtrail-log"]
+      "arn:aws:s3:::secure-brigade-cloudtrail-log"
+    ]
   }
 
   statement {
-    sid    = "AWSCloudTrailWrite"
-    effect = "Allow"
+    sid       = "AWSCloudTrailWrite"
+    effect    = "Allow"
     principals {
       identifiers = [
-      "cloudtrail.amazonaws.com"]
-      type = "Service"
+        "cloudtrail.amazonaws.com"
+      ]
+      type        = "Service"
     }
-    actions = [
-    "s3:PutObject"]
+    actions   = [
+      "s3:PutObject"
+    ]
     resources = [
       "arn:aws:s3:::secure-brigade-cloudtrail-log/AWSLogs/${lookup(var.accounts, "master")}/*",
       "arn:aws:s3:::secure-brigade-cloudtrail-log/AWSLogs/${data.aws_organizations_organization.this.id}/*"
@@ -40,8 +44,9 @@ data "aws_iam_policy_document" "cloudtrail-log-bucket" {
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-acl"
-      values = [
-      "bucket-owner-full-control"]
+      values   = [
+        "bucket-owner-full-control"
+      ]
     }
   }
 }
@@ -52,9 +57,10 @@ data "aws_iam_policy_document" "config-recorder" {
     effect = "Allow"
 
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = [
-      "config.amazonaws.com"]
+        "config.amazonaws.com"
+      ]
     }
 
     actions = [
@@ -70,7 +76,7 @@ data "aws_iam_policy_document" "config-recorder" {
     effect = "Allow"
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [
         module.iam-config-mgt-master.iam-arn,
         module.iam-config-mgt-compliance.iam-arn,
@@ -95,7 +101,7 @@ data "aws_iam_policy_document" "config-recorder" {
     effect = "Allow"
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [
         module.iam-config-mgt-master.iam-arn,
         module.iam-config-mgt-compliance.iam-arn,
@@ -110,17 +116,17 @@ data "aws_iam_policy_document" "config-recorder" {
     ]
 
     resources = [
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "master")}/Config/*",
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "compliance")}/Config/*",
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "stg")}/Config/*",
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "prod")}/Config/*",
-      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${lookup(var.accounts, "security")}/Config/*"
+      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${var.accounts.master}/Config/*",
+      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${var.accounts.compliance}/Config/*",
+      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${var.accounts.stg}/Config/*",
+      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${var.accounts.prod}/Config/*",
+      "${aws_s3_bucket.config-bucket.arn}/AWSLogs/${var.accounts.security}/Config/*"
     ]
 
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-acl"
-      values = [
+      values   = [
         "bucket-owner-full-control"
       ]
     }
@@ -129,8 +135,8 @@ data "aws_iam_policy_document" "config-recorder" {
 
 data "aws_iam_policy_document" "use-kms-terraform-backend-key" {
   statement {
-    effect = "Allow"
-    actions = [
+    effect    = "Allow"
+    actions   = [
       "kms:DescribeKey",
       "kms:GenerateDataKey",
       "kms:Decrypt"
@@ -143,8 +149,8 @@ data "aws_iam_policy_document" "use-kms-terraform-backend-key" {
 
 data "aws_iam_policy_document" "read-terraform-state-bucket" {
   statement {
-    effect = "Allow"
-    actions = [
+    effect    = "Allow"
+    actions   = [
       "s3:Get*",
       "s3:List*"
     ]
@@ -157,8 +163,8 @@ data "aws_iam_policy_document" "read-terraform-state-bucket" {
 
 data "aws_iam_policy_document" "assume-to-infra-build-deploy" {
   statement {
-    effect = "Allow"
-    actions = [
+    effect    = "Allow"
+    actions   = [
       "sts:AssumeRole",
       "sts:TagSession"
     ]

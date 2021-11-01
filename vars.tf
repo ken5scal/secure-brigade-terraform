@@ -10,9 +10,6 @@ variable "accounts" {
     security   = "085773780922"
   }
 }
-variable "region" {
-  default = "ap-northeast-1"
-}
 variable "environment" {
   default = "terraform"
 }

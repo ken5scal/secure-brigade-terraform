@@ -34,7 +34,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       - name: test
-        run: ${{ env.GITHUB_REF }}
+        run: echo ${{ env.GITHUB_REF }}
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan

@@ -1,4 +1,4 @@
-name: terraform plan
+name: test web id federation
 
 env:
   ENV_NAME: dev

@@ -23,6 +23,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    environment: prod
     defaults:
       run:
         shell: bash

@@ -18,7 +18,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    environment: prod
+#     environment: prod
     defaults:
       run:
         shell: bash
@@ -36,7 +36,9 @@ jobs:
       - name: test
         run: | 
           OIDC_TOKEN=$(curl -sLS "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=o6s" -H "User-Agent: actions/oidc-client" -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN")
-          echo $OIDC_TOKEN | jq .
+          echo $OIDC_TOKEN | jq -j '.value'
+          ID_TOKEN="$(curl --silent -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "${ACTIONS_ID_TOKEN_REQUEST_URL}" | jq -r '.value')"
+          
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan

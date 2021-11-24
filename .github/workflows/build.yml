@@ -13,10 +13,10 @@ jobs:
   terraform_plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    environment: prod
     permissions:
       id-token: write
       contents: read
+    environment: prod
     defaults:
       run:
         shell: bash

@@ -20,8 +20,6 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Show env
-        run: env | grep 'ACTIONS_ID_TOKEN'
       - name: Checkout
         uses: actions/checkout@v2
       - name: configure aws credentials

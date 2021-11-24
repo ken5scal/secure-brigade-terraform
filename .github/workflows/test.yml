@@ -1,0 +1,65 @@
+name: terraform plan
+
+env:
+  ENV_NAME: dev
+  NODE_VERSION: 14
+  AWS_ACCOUNT_ID: 791325445011
+  AWS_REGION: ap-northeast-1
+  AWS_ROLE_TO_ASSUME: arn:aws:iam::791325445011:role/deploy
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        default: 'warning'
+
+jobs:
+  terraform_plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::791325445011:role/deploy
+          role-session-name: samplerolesession
+          aws-region: ap-northeast-1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+      - name: Comment on PR
+        uses: actions/github-script@v1
+        env:
+          STDOUT: "```terraform\n${{ steps.plan.outputs.stdout }}```"
+          STDERR: "```terraform\n${{ steps.plan.outputs.stderr }}```"
+          EXITCODE: "${{ steps.plan.outputs.exitcode }}"
+        with:
+          result-encoding: string
+          script: |
+            let output;
+            if (process.env.EXITCODE == 0) {
+              output = `<details><summary>tf plan:</summary>\n\n${process.env.STDOUT}\n\n</details>`;
+            } else {
+              output = `<details><summary>tf plan:</summary>\n\n${process.env.STDERR}\n\n</details>`;
+            }
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

@@ -13,6 +13,8 @@ jobs:
   terraform_plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_TerraformAssumeRoleName: terraform-read-only-role
     permissions:
       id-token: write
       contents: read
@@ -26,11 +28,13 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@master
         with:
-          role-to-assume: arn:aws:iam::791325445011:role/terraform-read-only-role
+          role-to-assume: arn:aws:iam::791325445011:role/${{ env.TF_VAR_TerraformAssumeRoleName }}
           role-session-name: tf-plan-session
           aws-region: ap-northeast-1
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      - name: test
+        run: ${{ env.GITHUB_REF }}
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan
